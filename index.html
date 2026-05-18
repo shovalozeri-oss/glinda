@@ -1357,6 +1357,16 @@
     color: var(--gray-10);
     line-height: 1.3;
   }
+  .traveler-extra {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gray-50);
+    background: var(--gray-95);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
   .traveler-trip {
     font-size: 12.5px;
     color: var(--gray-30);
@@ -2465,38 +2475,93 @@
       plan: 'Faye Flagship', price: 178, status: 'quote_created',
       hasCfar: true
     },
-    // ===== Roster: Acme Q2 Offsite (4 travelers, Berlin)
+    // ===== Roster A: Holiday Quotes.xlsx
+    // Bulk upload — quotes for unrelated trips combined into one roster
+    // to speed up creation. Different travelers, destinations, dates.
     {
-      id: 'p12', client: 'Linda Martinez', email: 'l.martinez@acme.com',
-      destination: 'Berlin, Germany',
-      tripStart: '2026-06-05', tripEnd: '2026-06-12',
+      id: 'p_a1', client: 'Sarah Chen', email: 's.chen@gmail.com',
+      destination: 'Bangkok, Thailand',
+      tripStart: '2026-08-05', tripEnd: '2026-08-15',
+      plan: 'Faye Forward', price: 168, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+    {
+      id: 'p_a2', client: 'Mike Patel', email: 'mike.patel@gmail.com',
+      destination: 'Rome, Italy',
+      tripStart: '2026-09-10', tripEnd: '2026-09-18',
+      plan: 'Faye Forward', price: 215, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx',
+      additionalTravelers: [{ name: 'Lisa Patel', email: 'lisa.patel@gmail.com' }]
+    },
+    {
+      id: 'p_a3', client: 'Jordan Lee', email: 'jordan.l@gmail.com',
+      destination: 'Mexico City, Mexico',
+      tripStart: '2026-07-01', tripEnd: '2026-07-07',
+      plan: 'Faye First', price: 89, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+    {
+      id: 'p_a4', client: 'Hannah Kim', email: 'hannah.kim@gmail.com',
+      destination: 'Tokyo, Japan',
+      tripStart: '2026-08-20', tripEnd: '2026-09-01',
+      plan: 'Faye Flagship', price: 380, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx',
+      additionalTravelers: [
+        { name: 'Daniel Kim', email: 'daniel.kim@gmail.com' },
+        { name: 'Mia Kim', email: 'mia.kim@gmail.com' }
+      ]
+    },
+    {
+      id: 'p_a5', client: 'Carla Rivera', email: 'c.rivera@gmail.com',
+      destination: 'Stockholm, Sweden',
+      tripStart: '2026-09-25', tripEnd: '2026-10-02',
+      plan: 'Faye Forward', price: 142, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+
+    // ===== Roster B: Smith Family Reunion
+    // Same trip and dates for everyone. Each sub-quote covers different
+    // people from a different state of residence — which affects price
+    // and coverage. Mix of solo, couple, and family sub-quotes.
+    {
+      id: 'p_b1', client: 'Robert Smith', email: 'robert.smith@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Forward', price: 234, status: 'quote_created',
+      state: 'California',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [{ name: 'Jane Smith', email: 'jane.smith@gmail.com' }]
+    },
+    {
+      id: 'p_b2', client: 'David Smith Jr.', email: 'david.smithjr@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
       plan: 'Faye Forward', price: 156, status: 'quote_created',
-      rosterId: 'r1', rosterName: 'Acme Q2 Offsite'
+      state: 'Texas',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion'
     },
     {
-      id: 'p13', client: 'Ravi Mehta', email: 'r.mehta@acme.com',
-      destination: 'Berlin, Germany',
-      tripStart: '2026-06-05', tripEnd: '2026-06-12',
-      plan: 'Faye Forward', price: 156, status: 'quote_created',
-      rosterId: 'r1', rosterName: 'Acme Q2 Offsite'
+      id: 'p_b3', client: 'Emma Wong', email: 'emma.wong@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Flagship', price: 412, status: 'active',
+      state: 'New York',
+      paidAt: '2026-04-28', docsAdded: false,
+      policyNumber: 'P26-ew4n9km',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [
+        { name: 'Marcus Wong', email: 'marcus.wong@gmail.com' },
+        { name: 'Sophie Wong', email: 'sophie.wong@gmail.com' }
+      ]
     },
     {
-      id: 'p14', client: 'Carlos Rivera', email: 'c.rivera@acme.com',
-      destination: 'Berlin, Germany',
-      tripStart: '2026-06-05', tripEnd: '2026-06-12',
-      plan: 'Faye Forward', price: 156, status: 'active',
-      paidAt: '2026-04-22', docsAdded: true,
-      policyNumber: 'P26-cr8x2vk',
-      rosterId: 'r1', rosterName: 'Acme Q2 Offsite'
-    },
-    {
-      id: 'p15', client: 'Yuki Tanaka', email: 'y.tanaka@acme.com',
-      destination: 'Berlin, Germany',
-      tripStart: '2026-06-05', tripEnd: '2026-06-12',
-      plan: 'Faye Flagship', price: 218, status: 'active',
-      paidAt: '2026-04-25', docsAdded: false,
-      policyNumber: 'P26-yt5k9pn',
-      rosterId: 'r1', rosterName: 'Acme Q2 Offsite'
+      id: 'p_b4', client: 'Lily Smith', email: 'lily.smith@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Forward', price: 268, status: 'quote_created',
+      state: 'Florida',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [{ name: 'Mark Davis', email: 'mark.davis@gmail.com' }]
     }
   ];
 
@@ -2758,7 +2823,7 @@
         <td>
           <div class="stack">
             <div class="cell-primary">${rosterName}</div>
-            <div class="cell-secondary">${kids.length} travelers</div>
+            <div class="cell-secondary">${kids.length} quotes · ${kids.reduce((s, k) => s + 1 + (k.additionalTravelers?.length || 0), 0)} travelers</div>
           </div>
         </td>
         <td>
@@ -2910,39 +2975,79 @@
     const isQuote = p.status === 'quote_created';
     const isDraft = p.status === 'draft';
     const isActive = p.status === 'active';
+    const isPreTrip = isActive && tripPhase(p) === 'pre';
+    const isCompleted = p.status === 'completed';
     const isTerminal = TERMINAL.includes(p.status);
 
-    menu.innerHTML = `
+    // Mirror the drawer's quick actions + more menu for this row type.
+    const items = [{ icon: 'eye', label: 'View details' }];
+    const dangerItems = [];
+
+    if (isQuote) {
+      items.push(
+        { icon: 'email', label: 'Email' },
+        { icon: 'link', label: 'Copy link' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      );
+      dangerItems.push(
+        { icon: 'x', label: 'Mark as declined' },
+        { icon: 'trash', label: 'Delete quote' }
+      );
+    } else if (isActive) {
+      items.push(
+        { icon: 'email', label: 'Email' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' }
+      );
+      if (isPreTrip) {
+        items.push({ icon: 'edit', label: 'Edit policy' });
+        if (!p.docsAdded) {
+          items.push({ icon: 'plus', label: 'Add flights & docs' });
+        }
+      }
+      items.push({ icon: 'duplicate', label: 'Duplicate quote' });
+      dangerItems.push({ icon: 'trash', label: 'Cancel policy' });
+    } else if (isDraft) {
+      items.push(
+        { icon: 'edit', label: 'Continue editing' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      );
+      dangerItems.push({ icon: 'trash', label: 'Delete draft' });
+    } else if (isCompleted) {
+      items.push(
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' },
+        { icon: 'duplicate', label: 'Duplicate quote' }
+      );
+    } else {
+      // cancelled / declined / expired
+      items.push(
+        { icon: 'duplicate', label: 'Duplicate quote' },
+        { icon: 'download', label: 'Download PDF' }
+      );
+    }
+
+    // "Add note" is contextual for almost every row type
+    items.push({ icon: 'chat', label: 'Add note' });
+
+    let html = items.map(i => `
       <div class="menu-item" onclick="closeMenu()">
-        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        View details
+        ${menuIcon(i.icon)}
+        ${i.label}
       </div>
-      ${isQuote ? `
-        <div class="menu-item" onclick="closeMenu()">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          Resend offer to client
-        </div>` : ''}
-      ${isDraft ? `
-        <div class="menu-item" onclick="closeMenu()">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Continue editing
-        </div>` : ''}
-      ${isActive ? `
-        <div class="menu-item" onclick="closeMenu()">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
-          Add flights &amp; docs
-        </div>` : ''}
-      <div class="menu-item" onclick="closeMenu()">
-        <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-        Add note
-      </div>
-      ${!isTerminal ? `
-        <div class="menu-divider"></div>
+    `).join('');
+    if (dangerItems.length) {
+      html += '<div class="menu-divider"></div>';
+      html += dangerItems.map(i => `
         <div class="menu-item danger" onclick="closeMenu()">
-          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          Mark as declined
-        </div>` : ''}
-    `;
+          ${menuIcon(i.icon)}
+          ${i.label}
+        </div>
+      `).join('');
+    }
+
+    menu.innerHTML = html;
     menu.classList.add('visible');
     const rect = e.currentTarget.getBoundingClientRect();
     menu.style.top = (window.scrollY + rect.bottom + 4) + 'px';
@@ -3473,6 +3578,9 @@
     if (!kids.length) return { quickActions: '', body: '', bottom: '', moreMenu: '' };
     const name = kids[0].rosterName;
     const total = kids.reduce((sum, k) => sum + (k.price || 0), 0);
+    const totalTravelers = kids.reduce(
+      (sum, k) => sum + 1 + (k.additionalTravelers?.length || 0), 0
+    );
 
     // Group summary card — no trip details (those live per-traveler below
     // since a roster can be a single shared trip OR several different trips).
@@ -3482,25 +3590,33 @@
           <div class="drawer-card-title">${cardIcon('users')}GROUP</div>
         </div>
         <div class="trip-heading">${name}</div>
-        <div class="trip-dates">${kids.length} travelers &nbsp;·&nbsp; $${total} total</div>
+        <div class="trip-dates">${kids.length} quotes &nbsp;·&nbsp; ${totalTravelers} travelers &nbsp;·&nbsp; $${total} total</div>
       </div>
     `;
 
     // Travelers card — each row carries its OWN destination + dates so
-    // the drawer works whether everyone's on the same trip or not.
+    // the drawer works whether everyone's on the same trip or not. A
+    // sub-quote can cover more than one person (couple, family) — shown
+    // as a "+N more" hint next to the lead traveler's name.
     const travelersCardHtml = `
       <div class="drawer-card">
         <div class="drawer-card-header">
-          <div class="drawer-card-title">${cardIcon('plane')}TRAVELERS (${kids.length})</div>
+          <div class="drawer-card-title">${cardIcon('plane')}QUOTES (${kids.length})</div>
         </div>
         ${kids.map(k => {
           const b = getStatusBadge(k);
-          const planMeta = k.plan ? `${k.plan} · $${k.price}` : 'No plan selected';
+          const extra = (k.additionalTravelers || []).length;
+          const nameLabel = extra > 0
+            ? `${k.client} <span class="traveler-extra">+${extra} more</span>`
+            : k.client;
+          const planMeta = k.plan
+            ? `${k.plan} · $${k.price}${k.state ? ` · ${k.state}` : ''}`
+            : 'No plan selected';
           const tripMeta = `${k.destination} · ${fmtFullDate(k.tripStart)} – ${fmtFullDate(k.tripEnd)}`;
           return `
             <div class="traveler-row" onclick="navigateToEntity('${k.id}')">
               <div class="traveler-info">
-                <div class="traveler-name">${k.client}</div>
+                <div class="traveler-name">${nameLabel}</div>
                 <div class="traveler-trip">${tripMeta}</div>
                 <div class="traveler-meta">${planMeta}</div>
               </div>
@@ -3881,9 +3997,17 @@
       plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
       edit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
       receipt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l3-2 3 2 3-2 3 2V8z"/><line x1="9" y1="10" x2="13" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/></svg>`,
-      eject: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l8 11H4l8-11z"/><line x1="5" y1="19" x2="19" y2="19"/></svg>`
+      eject: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l8 11H4l8-11z"/><line x1="5" y1="19" x2="19" y2="19"/></svg>`,
+      eye: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+      x: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>`,
+      chat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>`
     };
     return icons[name] || '';
+  }
+
+  // Helper: same icon but tagged with `menu-icon` class for 3-dot menus
+  function menuIcon(name) {
+    return getActionIcon(name).replace('<svg', '<svg class="menu-icon"');
   }
 
   function cardIcon(name) {
@@ -3998,6 +4122,40 @@
         btn.style.transform = 'scale(1)';
       }, 280);
     }, 150);
+  }
+
+  // Same fade+shrink → swap → pop back pattern as the badge/button.
+  // Replaces the plan-name secondary line with the policy-number line
+  // (monospace + copy icon). Cascaded after the button so all three
+  // row-changes ripple in sequence (badge → button → plan).
+  function transitionPlanToPolicyNumber(rowEl, policyNumber) {
+    // Plan column is the 5th td (chevron, checkbox, client, trip, plan, ...)
+    const planCell = rowEl.querySelectorAll('td')[4];
+    if (!planCell) return;
+    const stack = planCell.querySelector('.stack');
+    if (!stack) return;
+    const secondary = stack.children[1]; // [0]=price, [1]=plan name or policy num
+    if (!secondary) return;
+
+    setTimeout(() => {
+      secondary.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+      secondary.style.opacity = '0.25';
+      secondary.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        const copyIcon = `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+        const newEl = document.createElement('span');
+        newEl.className = 'policy-num-inline';
+        newEl.innerHTML = `${policyNumber}<span class="policy-num-copy" title="Copy policy number">${copyIcon}</span>`;
+        newEl.style.opacity = '0';
+        newEl.style.transform = 'scale(0.9)';
+        newEl.style.transition = 'opacity 0.32s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        stack.replaceChild(newEl, secondary);
+        requestAnimationFrame(() => {
+          newEl.style.opacity = '1';
+          newEl.style.transform = 'scale(1)';
+        });
+      }, 280);
+    }, 280); // cascade: badge(0) → button(150) → plan(280)
   }
 
   const CONFETTI_COLORS = ['#561DCF', '#005C41', '#AB6100', '#C0B0FF', '#CCF9EB', '#FFF8D4'];
@@ -4194,6 +4352,9 @@
     // Same smooth fade+swap+pop pattern as the badge, cascaded slightly
     // after so the two changes feel sequential rather than simultaneous.
     transitionButtonText(rowEl, 'Add flights & docs');
+
+    // Plan column also swaps: plan name → policy number + copy icon
+    transitionPlanToPolicyNumber(rowEl, p.policyNumber);
 
     // Fire the contained Monday-style burst with the selected Faye palette
     confettiBehindRow(rowEl);
