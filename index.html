@@ -1,0 +1,4326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Faye — Policies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Glinda 2.0 — Purple */
+    --purple-50: #4817AF;
+    --purple-60: #561DCF;
+    --purple-90: #C0B0FF;
+    --purple-95: #E2DFFF;
+
+    /* Glinda 2.0 — Gray */
+    --gray-10: #1A1919;
+    --gray-30: #4F4C4A;
+    --gray-40: #696663;
+    --gray-50: #83807C;
+    --gray-60: #9C9996;
+    --gray-90: #E6E5E5;
+    --gray-95: #F3F2F2;
+    --gray-99: #FAFAFA;
+    --white: #FFFFFF;
+
+    /* Glinda 2.0 — Signals */
+    --success-text: #005C41;
+    --success-bg: #CCF9EB;
+    --warning-text: #AB6100;
+    --warning-bg: #FFF8D4;
+    --error-text: #991705;
+    --error-bg: #FFE9E6;
+
+    /* Sizing */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-pill: 100px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--gray-99);
+    color: var(--gray-10);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  /* ====== Header ====== */
+  .header {
+    background: var(--white);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-95);
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    flex: 1;
+  }
+  .logo {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--purple-60);
+    letter-spacing: -0.04em;
+  }
+  .user-strip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    background: var(--purple-95);
+    color: var(--purple-50);
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+  .user-name {
+    color: var(--gray-30);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+  }
+  .icon-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--purple-90);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-60);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .icon-btn-lg {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--purple-90);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-60);
+    cursor: pointer;
+  }
+  .header-tabs {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .tab {
+    padding: 0 8px 4px;
+    color: var(--gray-30);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .tab.active {
+    color: var(--purple-60);
+    font-weight: 600;
+    border-bottom-color: var(--purple-60);
+  }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .header-icons {
+    display: flex;
+    gap: 18px;
+  }
+
+  /* ====== Page ====== */
+  .page {
+    padding: 24px 32px 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* ====== Top comp / greeting ====== */
+  .top-comp {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .top-illustration {
+    width: 80px;
+    height: 110px;
+    flex-shrink: 0;
+    background: var(--purple-95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-50);
+  }
+  .greeting-block h1 {
+    margin: 0 0 4px;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--gray-10);
+  }
+  .greeting-block p {
+    margin: 0;
+    color: var(--gray-10);
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  /* ====== Search & filters bar ====== */
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    width: 412px;
+    height: 48px;
+    border: 1px solid var(--gray-90);
+    border-radius: var(--radius-sm);
+    padding: 0 16px 0 44px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--gray-10);
+    background: var(--white) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239C9996' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><path d='M21 21l-4.35-4.35'/></svg>") no-repeat 16px center;
+    transition: border-color 0.15s;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: var(--purple-60);
+  }
+  .search-input::placeholder { color: var(--gray-60); }
+
+  .filter-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    padding: 6px 12px;
+    background: var(--white);
+    border: 1px solid var(--gray-90);
+    border-radius: var(--radius-pill);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-30);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.12s;
+  }
+  .chip:hover { background: var(--gray-99); }
+  .chip.active {
+    background: var(--gray-10);
+    color: var(--white);
+    border-color: var(--gray-10);
+  }
+  .chip-count {
+    font-size: 11px;
+    padding: 1px 6px;
+    background: var(--gray-95);
+    border-radius: var(--radius-pill);
+    color: var(--gray-40);
+    font-weight: 600;
+  }
+  .chip.active .chip-count {
+    background: rgba(255,255,255,0.16);
+    color: var(--white);
+  }
+
+  .filter-spacer { flex: 1; }
+
+  .toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-30);
+    cursor: pointer;
+    user-select: none;
+    font-weight: 500;
+  }
+  .toggle input { display: none; }
+  .toggle-track {
+    width: 32px;
+    height: 18px;
+    background: var(--gray-90);
+    border-radius: var(--radius-pill);
+    position: relative;
+    transition: background 0.16s;
+  }
+  .toggle-track::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: var(--white);
+    border-radius: 50%;
+    transition: left 0.16s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .toggle input:checked + .toggle-track { background: var(--purple-60); }
+  .toggle input:checked + .toggle-track::after { left: 16px; }
+
+  .filter-by-btn {
+    height: 36px;
+    padding: 0 16px;
+    border: 1px solid var(--purple-60);
+    background: var(--white);
+    color: var(--purple-60);
+    border-radius: var(--radius-pill);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .filter-by-btn:hover { background: var(--purple-95); }
+
+  /* ====== Bulk action bar ====== */
+  .bulk-bar {
+    display: none;
+    background: var(--gray-10);
+    color: var(--white);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    align-items: center;
+    gap: 12px;
+  }
+  .bulk-bar.visible { display: flex; }
+  .bulk-count {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .bulk-spacer { flex: 1; }
+  .bulk-btn {
+    background: rgba(255,255,255,0.1);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .bulk-btn:hover { background: rgba(255,255,255,0.2); }
+  .bulk-btn.primary {
+    background: var(--purple-60);
+    border-color: var(--purple-60);
+  }
+  .bulk-btn.primary:hover { background: var(--purple-50); }
+  .bulk-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .bulk-close:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+
+  /* ====== Table ====== */
+  .table-wrap {
+    background: var(--white);
+    border: 1px solid var(--gray-95);
+    border-radius: var(--radius-md);
+    overflow: visible;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  thead th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-10);
+    padding: 18px 16px;
+    background: var(--gray-95);
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  thead th:first-child { border-top-left-radius: var(--radius-md); }
+  thead th:last-child { border-top-right-radius: var(--radius-md); }
+
+  tbody tr {
+    border-bottom: 1px solid var(--gray-95);
+    transition: background 0.08s;
+  }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: var(--gray-99); }
+  tbody tr.selected { background: var(--purple-95) !important; }
+
+  td {
+    padding: 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: var(--gray-10);
+  }
+
+  /* Checkbox */
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--purple-60);
+    border-radius: 4px;
+    background: var(--white);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.1s;
+  }
+  .checkbox:hover { background: var(--purple-95); }
+  .checkbox.checked {
+    background: var(--purple-60);
+    border-color: var(--purple-60);
+  }
+  .checkbox.checked::after {
+    content: "";
+    width: 8px;
+    height: 4px;
+    border-left: 2px solid var(--white);
+    border-bottom: 2px solid var(--white);
+    transform: rotate(-45deg) translate(1px, -1px);
+  }
+
+  /* Cells */
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .cell-primary {
+    color: var(--gray-10);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .cell-secondary {
+    color: var(--gray-40);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .cell-tertiary {
+    color: var(--gray-50);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+  .policy-num-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--gray-50);
+    font-size: 12px;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    letter-spacing: 0;
+    margin-left: 2px;
+  }
+  .policy-num-copy {
+    cursor: pointer;
+    color: var(--gray-60);
+    display: inline-flex;
+    align-items: center;
+  }
+  .policy-num-copy:hover { color: var(--purple-60); }
+  .plan-sep {
+    color: var(--gray-60);
+    margin: 0 4px;
+  }
+
+  /* Status badges (Glinda 2.0) */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .badge-neutral { background: var(--gray-95); color: var(--gray-30); }
+  .badge-success { background: var(--success-bg); color: var(--success-text); }
+  .badge-warning { background: var(--warning-bg); color: var(--warning-text); }
+  .badge-error { background: var(--error-bg); color: var(--error-text); }
+
+  /* Urgency chip — sits inline next to the action button, sized to
+     match the status badge for visual consistency. */
+  .urgency-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+    cursor: default;
+    position: relative;
+    white-space: nowrap;
+  }
+  .urgency-chip[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2A2A2A;
+    color: var(--white);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: 0;
+    white-space: nowrap;
+    z-index: 200;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+  }
+  .urgency-chip[data-tooltip]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #2A2A2A;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .urgency-chip svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+  .urgency-chip.urgency-soft {
+    background: var(--gray-95);
+    color: var(--gray-30);
+  }
+  .urgency-chip.urgency-warn {
+    background: var(--warning-bg);
+    color: var(--warning-text);
+  }
+  .urgency-chip.urgency-crit {
+    background: var(--error-bg);
+    color: var(--error-text);
+  }
+  .action-stack {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .urgency-soft { color: var(--gray-50); }
+  .urgency-warn { color: var(--warning-text); }
+  .urgency-crit {
+    color: var(--error-text);
+    font-weight: 600;
+  }
+
+  /* Action column — purple primary buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--radius-sm);
+    background: var(--purple-60);
+    color: var(--white);
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+    transition: background 0.12s;
+  }
+  .btn-primary:hover { background: var(--purple-50); }
+  .btn-primary:active { background: var(--purple-50); transform: translateY(0.5px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--purple-60);
+    border: 1px solid var(--purple-90);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+  .btn-secondary:hover { background: var(--purple-95); }
+
+  .btn-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 36px;
+    color: var(--purple-60);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+  }
+  .btn-text:hover { color: var(--purple-50); text-decoration: underline; }
+
+  .action-text {
+    color: var(--gray-50);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .action-empty {
+    color: var(--gray-60);
+    font-size: 14px;
+  }
+
+
+  /* Event indicator */
+  .event-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--purple-50);
+    background: var(--purple-95);
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    letter-spacing: 0.01em;
+  }
+  .event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--purple-60);
+  }
+
+  /* Roster (group trip) */
+  .chevron-btn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--gray-40);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .chevron-btn:hover {
+    color: var(--gray-10);
+    background: var(--gray-95);
+  }
+  .chevron-btn svg {
+    transition: transform 0.15s ease;
+    width: 14px;
+    height: 14px;
+  }
+  .chevron-btn.expanded svg {
+    transform: rotate(90deg);
+  }
+
+  tbody tr.roster-parent {
+    background: var(--white);
+  }
+  tbody tr.roster-parent:hover {
+    background: var(--gray-99);
+  }
+  tbody tr.roster-child {
+    background: var(--gray-99);
+  }
+  tbody tr.roster-child:hover {
+    background: var(--gray-95);
+  }
+
+  /* Dedicated leading column for the roster chevron, matching the Figma.
+     Empty (but space-reserving) for non-roster rows. */
+  .chevron-cell {
+    width: 28px;
+    padding: 0 0 0 12px;
+    vertical-align: middle;
+  }
+  thead th.chevron-cell { padding: 18px 0 18px 12px; }
+  .chevron-cell .chevron-btn {
+    margin: 0;
+  }
+
+  .roster-name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .roster-meta {
+    color: var(--gray-50);
+    font-size: 12px;
+    margin-left: 26px;
+    line-height: 1.3;
+  }
+
+  .status-mini-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    line-height: 1.2;
+  }
+  .status-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .mini-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .mini-warning { background: var(--warning-bg); color: var(--warning-text); }
+  .mini-warning .mini-dot { background: var(--warning-text); }
+  .mini-success { background: var(--success-bg); color: var(--success-text); }
+  .mini-success .mini-dot { background: var(--success-text); }
+  .mini-neutral { background: var(--gray-95); color: var(--gray-30); }
+  .mini-neutral .mini-dot { background: var(--gray-40); }
+  .mini-error { background: var(--error-bg); color: var(--error-text); }
+  .mini-error .mini-dot { background: var(--error-text); }
+
+  /* indeterminate checkbox (some children selected) */
+  .checkbox.partial {
+    background: var(--purple-60);
+    border-color: var(--purple-60);
+  }
+  .checkbox.partial::after {
+    content: "";
+    width: 8px;
+    height: 0;
+    border-bottom: 2px solid var(--white);
+    transform: none;
+  }
+
+  /* 3-dot menu */
+  .more-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-40);
+  }
+  .more-btn:hover {
+    background: var(--gray-95);
+    color: var(--gray-10);
+  }
+  .menu-dropdown {
+    position: absolute;
+    background: var(--white);
+    border: 1px solid var(--gray-90);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+    min-width: 220px;
+    padding: 6px;
+    z-index: 100;
+    display: none;
+  }
+  .menu-dropdown.visible { display: block; }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--gray-10);
+    font-weight: 500;
+  }
+  .menu-item:hover { background: var(--gray-95); }
+  .menu-item.danger { color: var(--error-text); }
+  .menu-item.danger:hover { background: var(--error-bg); }
+  .menu-divider {
+    height: 1px;
+    background: var(--gray-95);
+    margin: 4px 0;
+  }
+  .menu-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--gray-50);
+  }
+  .menu-item.danger .menu-icon { color: var(--error-text); }
+
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 24px 0;
+  }
+  .page-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    color: var(--gray-30);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .page-btn:hover { background: var(--gray-95); }
+  .page-btn.active {
+    background: var(--purple-60);
+    color: var(--white);
+  }
+  .page-arrow { color: var(--gray-40); }
+
+  /* Notes panel */
+  .notes-panel {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--gray-99);
+    border: 1px solid var(--gray-95);
+    border-radius: var(--radius-md);
+    font-size: 12.5px;
+    color: var(--gray-30);
+  }
+  .notes-panel strong { color: var(--gray-10); }
+  .notes-panel ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+    line-height: 1.7;
+  }
+
+  .icon-sm { width: 14px; height: 14px; flex-shrink: 0; }
+  .icon-md { width: 16px; height: 16px; flex-shrink: 0; }
+  .icon-lg { width: 20px; height: 20px; flex-shrink: 0; }
+
+  /* Empty state */
+  .empty-row td {
+    padding: 64px 24px;
+    text-align: center;
+    color: var(--gray-50);
+  }
+
+  /* ===== Purchase celebration: badge transition (shared) ===== */
+  .badge {
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+  /* The fade-out / pop-in is applied via inline styles in JS */
+
+  /* ===== Confetti pieces (shared across variants) ===== */
+  .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 1000;
+    will-change: transform, opacity;
+    animation: confetti-burst 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  @keyframes confetti-burst {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 1;
+    }
+    20% { opacity: 1; }
+    100% {
+      transform: translate(var(--x), calc(var(--y) + 120px)) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+  /* Variation C — smaller particles, tight burst around the badge */
+  .confetti-piece.small {
+    width: 5px;
+    height: 5px;
+    animation-duration: 1.4s;
+  }
+
+  /* Variation B — contained-in-row confetti.
+     The container is overflow:hidden so particles can't escape the row. */
+  .confetti-row-container {
+    position: fixed;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1000;
+  }
+  .confetti-row-piece {
+    position: absolute;
+    pointer-events: none;
+    will-change: transform, opacity;
+    /* CSS fallback — actual values set per-particle by the ease curve tool */
+    animation: confetti-row-fall 2.7s cubic-bezier(0.15, 0.18, 0.36, 0.91) forwards;
+  }
+  @keyframes confetti-row-fall {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    6%  { opacity: 1; }
+    88% { opacity: 1; }
+    100% {
+      transform: translate(var(--x), var(--y)) rotate(var(--rot));
+      opacity: 0;
+    }
+  }
+
+  /* ===== Animation 2: Paper airplane fly-by ===== */
+  .plane-flyby {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: plane-fly 1s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+  }
+  @keyframes plane-fly {
+    0% {
+      transform: translateX(0) translateY(4px) rotate(-6deg);
+      opacity: 0;
+    }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% {
+      transform: translateX(var(--end-x)) translateY(-22px) rotate(8deg);
+      opacity: 0;
+    }
+  }
+  @keyframes row-glow {
+    0%, 100% { background: var(--white); }
+    50% { background: #ecfdf5; }
+  }
+  tbody tr.row-glow-green {
+    animation: row-glow 1.2s ease-out;
+  }
+
+  /* ===== Animation 3: Halo + check pop ===== */
+  @keyframes row-halo-flash {
+    0% { background: var(--white); box-shadow: inset 0 0 0 0 rgba(0,92,65,0); }
+    30% { background: #d1fae5; box-shadow: inset 0 0 0 2px rgba(0,92,65,0.4); }
+    100% { background: var(--white); box-shadow: inset 0 0 0 0 rgba(0,92,65,0); }
+  }
+  tbody tr.row-halo-flash {
+    animation: row-halo-flash 1s ease-out;
+  }
+  @keyframes check-pop-in {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.35); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .check-pop {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 4px;
+    color: var(--success-text);
+    animation: check-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* ===== Demo control widget (animation switcher) ===== */
+  .demo-widget {
+    display: none; /* hidden; set to flex to re-enable the palette picker */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--white);
+    border: 1px solid var(--gray-90);
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    z-index: 150;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 240px;
+  }
+  .demo-widget-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gray-10);
+  }
+  .demo-options {
+    display: flex;
+    gap: 4px;
+  }
+  .demo-option {
+    flex: 1;
+    padding: 7px 8px;
+    border-radius: 6px;
+    background: var(--gray-95);
+    color: var(--gray-30);
+    cursor: pointer;
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: inherit;
+    white-space: nowrap;
+    transition: background 0.1s, color 0.1s;
+  }
+  .demo-option:hover {
+    background: var(--gray-90);
+  }
+  .demo-option.active {
+    background: var(--purple-60);
+    color: var(--white);
+  }
+  .demo-help {
+    font-size: 11px;
+    color: var(--gray-50);
+    line-height: 1.4;
+  }
+  .demo-reset {
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gray-30);
+    cursor: pointer;
+    border: 1px solid var(--gray-90);
+    font-size: 11px;
+    font-weight: 500;
+    font-family: inherit;
+  }
+  .demo-reset:hover {
+    background: var(--gray-99);
+  }
+
+  /* Clickable rows */
+  tbody tr:not(.empty-row) {
+    cursor: pointer;
+  }
+
+  /* ===== Side panel (drawer) ===== */
+  .drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0);
+    visibility: hidden;
+    z-index: 200;
+    transition: background 0.2s ease, visibility 0.2s;
+  }
+  .drawer-overlay.visible {
+    background: rgba(15, 23, 42, 0.4);
+    visibility: visible;
+  }
+  .drawer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 45vw;
+    min-width: 440px;
+    max-width: 92vw;
+    background: var(--white);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 32px rgba(15, 23, 42, 0.12);
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+                width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .drawer.wide {
+    width: 65vw;
+    min-width: 720px;
+  }
+  .drawer-overlay.visible .drawer {
+    transform: translateX(0);
+  }
+  #drawer-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    opacity: 1;
+    transition: opacity 0.16s ease;
+  }
+  #drawer-content.fading {
+    opacity: 0;
+  }
+  .drawer-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 0;
+    position: relative;
+  }
+  .drawer-icon-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--gray-40);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .drawer-icon-btn:hover {
+    background: var(--gray-95);
+    color: var(--gray-10);
+  }
+  .drawer-icon-btn.close {
+    border: 1px solid var(--purple-90);
+    color: var(--purple-60);
+  }
+  .drawer-icon-btn.close:hover {
+    background: var(--purple-95);
+    color: var(--purple-50);
+  }
+  .drawer-more-menu {
+    position: absolute;
+    top: 56px;
+    left: 20px;
+    background: var(--white);
+    border: 1px solid var(--gray-90);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    padding: 6px;
+    min-width: 180px;
+    z-index: 10;
+    display: none;
+  }
+  .drawer-more-menu.visible { display: block; }
+  .drawer-more-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--error-text);
+    font-weight: 500;
+  }
+  .drawer-more-item:hover { background: var(--error-bg); }
+  .drawer-more-item svg { width: 14px; height: 14px; }
+
+  /* Quick-action icon row */
+  .drawer-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 16px 20px 20px;
+  }
+  .quick-action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 4px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--purple-60);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .quick-action:hover {
+    background: var(--purple-95);
+  }
+  .quick-action svg {
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.75;
+  }
+
+  /* Body becomes a gray canvas holding cards */
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 20px 20px;
+    background: var(--white);
+  }
+  .drawer-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .drawer-card {
+    background: var(--gray-99);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .drawer-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .drawer-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-30);
+  }
+  .drawer-card-title svg {
+    width: 16px;
+    height: 16px;
+    color: #D04848;
+    flex-shrink: 0;
+  }
+  .drawer-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+    color: var(--purple-60);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: inherit;
+  }
+  .drawer-edit-btn:hover { background: var(--purple-95); }
+  .drawer-edit-btn svg { width: 14px; height: 14px; }
+
+  /* Trip card content */
+  .trip-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-10);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .trip-dates {
+    color: var(--gray-30);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .trip-traveler {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--gray-10);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .trip-traveler-count {
+    color: var(--gray-50);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  .trip-traveler svg { width: 14px; height: 14px; color: var(--gray-50); }
+
+  /* Coverage row */
+  .coverage-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    font-size: 14px;
+    gap: 12px;
+  }
+  .coverage-row > span:first-child,
+  .coverage-row > div:first-child {
+    color: var(--gray-40);
+    flex-shrink: 0;
+  }
+  .coverage-row > span:last-child,
+  .coverage-row > div:last-child {
+    color: var(--gray-10);
+    font-weight: 500;
+    text-align: right;
+  }
+  .coverage-divider {
+    border-top: 1px solid var(--gray-90);
+    margin: 10px -2px;
+  }
+  .plan-chip {
+    display: inline-block;
+    background: var(--gray-95);
+    color: var(--gray-30);
+    font-weight: 500;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+
+  /* Empty / "first" state inside a card */
+  .card-empty {
+    text-align: center;
+    color: var(--gray-50);
+    font-size: 13px;
+    padding: 8px 0 4px;
+  }
+
+  /* Travelers list inside the roster drawer */
+  .traveler-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .traveler-row + .traveler-row {
+    margin-top: 2px;
+  }
+  .traveler-row:hover {
+    background: var(--white);
+  }
+  .traveler-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .traveler-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-10);
+    line-height: 1.3;
+  }
+  .traveler-extra {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gray-50);
+    background: var(--gray-95);
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    letter-spacing: 0;
+  }
+  .traveler-trip {
+    font-size: 12.5px;
+    color: var(--gray-30);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+  .traveler-meta {
+    font-size: 12px;
+    color: var(--gray-50);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+  .traveler-row-trailing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .traveler-chevron {
+    color: var(--gray-50);
+    display: flex;
+    align-items: center;
+  }
+  .traveler-chevron svg {
+    width: 14px;
+    height: 14px;
+  }
+  .traveler-total {
+    border-top: 1px solid var(--gray-90);
+    margin-top: 10px;
+    padding: 10px 12px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  .traveler-total > span:first-child {
+    color: var(--gray-40);
+  }
+  .traveler-total > span:last-child {
+    font-weight: 600;
+    color: var(--gray-10);
+  }
+
+  /* Notes textarea inside a card */
+  .notes-textarea {
+    width: 100%;
+    min-height: 84px;
+    resize: vertical;
+    border: 1px solid var(--gray-90);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--gray-10);
+    background: var(--white);
+    box-sizing: border-box;
+    line-height: 1.5;
+  }
+  .notes-textarea:focus {
+    outline: none;
+    border-color: var(--purple-60);
+  }
+  .notes-textarea::placeholder {
+    color: var(--gray-60);
+  }
+  .notes-saved-hint {
+    font-size: 11px;
+    color: var(--gray-50);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .notes-saved-hint svg {
+    width: 12px;
+    height: 12px;
+    color: var(--success-text);
+  }
+
+  /* Editable controls in pre-trip cards */
+  .drawer-field-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-30);
+    margin: 14px 0 6px;
+    letter-spacing: 0;
+  }
+  .drawer-field-label:first-child { margin-top: 0; }
+  .drawer-main-traveler {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-10);
+    line-height: 1.3;
+  }
+  .drawer-main-traveler-meta {
+    font-size: 13px;
+    color: var(--gray-40);
+    margin-top: 2px;
+  }
+  .drawer-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--gray-90);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--gray-10);
+    background: var(--white);
+    box-sizing: border-box;
+  }
+  .drawer-input:focus {
+    outline: none;
+    border-color: var(--purple-60);
+  }
+  .drawer-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gray-90);
+    border-radius: 8px;
+    padding: 0 12px;
+    background: var(--white);
+    transition: border-color 0.12s;
+  }
+  .drawer-input-wrap:focus-within {
+    border-color: var(--purple-60);
+  }
+  .drawer-input-wrap input {
+    flex: 1;
+    border: none;
+    padding: 10px 0;
+    font-size: 14px;
+    font-family: inherit;
+    background: transparent;
+    color: var(--gray-10);
+    min-width: 0;
+  }
+  .drawer-input-wrap input:focus { outline: none; }
+  .drawer-input-wrap svg {
+    color: var(--gray-50);
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .drawer-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .drawer-field-sub {
+    font-size: 11px;
+    color: var(--gray-50);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+  }
+
+  /* Accordion for additional travelers */
+  .accordion-item {
+    border: 1px solid var(--gray-90);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    background: var(--white);
+    overflow: hidden;
+  }
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-10);
+  }
+  .accordion-header > svg {
+    width: 14px;
+    height: 14px;
+    color: var(--gray-50);
+    transition: transform 0.15s;
+  }
+  .accordion-item.expanded .accordion-header > svg {
+    transform: rotate(180deg);
+  }
+  .accordion-header-text { flex: 1; }
+  .accordion-content {
+    display: none;
+    padding: 4px 12px 14px;
+    border-top: 1px solid var(--gray-95);
+  }
+  .accordion-item.expanded .accordion-content {
+    display: block;
+  }
+  .add-traveler-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px dashed var(--gray-90);
+    color: var(--purple-60);
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    font-family: inherit;
+    margin-top: 4px;
+  }
+  .add-traveler-btn:hover {
+    background: var(--purple-95);
+    border-color: var(--purple-60);
+  }
+  .add-traveler-btn svg { width: 14px; height: 14px; }
+
+  /* Drawer roster tag (used in adapted form) */
+  .drawer-roster-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--purple-50);
+    background: var(--purple-95);
+    padding: 3px 8px;
+    border-radius: 6px;
+    width: fit-content;
+  }
+
+  /* Sticky bottom CTA */
+  .drawer-bottom-bar {
+    padding: 16px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-95);
+    flex-shrink: 0;
+  }
+  .drawer-pay-btn {
+    width: 100%;
+    height: 48px;
+    background: var(--purple-60);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .drawer-pay-btn:hover { background: var(--purple-50); }
+  .drawer-bottom-helper {
+    text-align: center;
+    color: var(--gray-50);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .drawer-bottom-edit-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+  .drawer-discard-btn {
+    height: 44px;
+    padding: 0 24px;
+    background: var(--white);
+    border: 1px solid var(--purple-60);
+    color: var(--purple-60);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .drawer-discard-btn:hover { background: var(--purple-95); }
+  .drawer-save-btn {
+    height: 44px;
+    padding: 0 28px;
+    background: var(--purple-60);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .drawer-save-btn:hover { background: var(--purple-50); }
+
+  /* ===== Wizard view (Edit trip details → Create quote) ===== */
+  .wizard-title-block {
+    padding: 4px 28px 16px;
+  }
+  .wizard-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--gray-10);
+    margin: 0 0 6px;
+  }
+  .wizard-multi-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--purple-60);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .wizard-multi-link:hover { color: var(--purple-50); }
+  .wizard-multi-link svg { width: 14px; height: 14px; }
+  .wizard-steps {
+    padding: 0 28px 16px;
+  }
+  .wizard-step {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--gray-95);
+  }
+  .wizard-step:last-child { border-bottom: none; }
+  .wizard-step-num {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-50);
+    flex-shrink: 0;
+    width: 14px;
+  }
+  .wizard-step-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .wizard-step-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-10);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .wizard-step-desc {
+    font-size: 13px;
+    color: var(--gray-40);
+    line-height: 1.5;
+  }
+  .wizard-bottom {
+    padding: 16px 20px 20px;
+    border-top: 1px solid var(--gray-95);
+    background: var(--white);
+    text-align: center;
+  }
+  .wizard-next-btn {
+    background: var(--purple-60);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    height: 44px;
+    padding: 0 36px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .wizard-next-btn:hover { background: var(--purple-50); }
+  .wizard-next-btn svg { width: 16px; height: 16px; }
+  .wizard-terms {
+    font-size: 11px;
+    color: var(--gray-50);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .wizard-terms a {
+    color: var(--purple-60);
+    text-decoration: none;
+  }
+
+  /* ===== Offer view (Edit coverage → Your quote) ===== */
+  .offer-title-block {
+    padding: 4px 28px 16px;
+  }
+  .offer-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--gray-10);
+    margin: 0 0 4px;
+  }
+  .offer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--success-text);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .offer-status svg { width: 14px; height: 14px; }
+  .offer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 0 28px 20px;
+  }
+  .offer-label {
+    font-size: 13px;
+    color: var(--gray-50);
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: 0;
+  }
+  .offer-trip-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .offer-trip-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gray-10);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .offer-trip-edit {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--purple-60);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .offer-trip-edit:hover { background: var(--purple-95); }
+  .offer-trip-edit svg { width: 14px; height: 14px; }
+  .offer-trip-dates {
+    font-size: 14px;
+    color: var(--gray-30);
+    margin-top: 4px;
+  }
+  .offer-trip-travelers {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: var(--gray-10);
+    margin-top: 10px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .offer-trip-travelers svg { width: 14px; height: 14px; color: var(--gray-50); }
+  .offer-cost-help {
+    font-size: 12px;
+    color: var(--gray-50);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+  .trip-cost-input {
+    width: 100%;
+    height: 40px;
+    border: 1px solid var(--gray-90);
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--gray-10);
+    background: var(--white);
+    box-sizing: border-box;
+  }
+  .trip-cost-input:focus {
+    outline: none;
+    border-color: var(--purple-60);
+  }
+
+  .plan-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: var(--gray-95);
+    border-radius: 12px;
+    margin: 0 28px 4px;
+  }
+  .plan-bar-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-10);
+  }
+  .change-plan-btn {
+    background: transparent;
+    border: none;
+    color: var(--gray-30);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: inherit;
+  }
+  .change-plan-btn:hover { background: var(--white); color: var(--gray-10); }
+
+  .offer-expandable {
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--gray-95);
+    cursor: pointer;
+  }
+  .offer-expandable:last-of-type { border-bottom: none; }
+  .offer-expandable-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--gray-30);
+    font-weight: 500;
+  }
+  .offer-expandable-header svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.15s;
+  }
+  .offer-expandable.expanded .offer-expandable-header svg {
+    transform: rotate(180deg);
+  }
+  .offer-expandable-content {
+    display: none;
+    margin-top: 14px;
+  }
+  .offer-expandable.expanded .offer-expandable-content {
+    display: block;
+  }
+
+  .addon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
+  }
+  .addon-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .addon-add-btn {
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--purple-90);
+    border-radius: 50%;
+    color: var(--purple-60);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+    margin-top: 1px;
+  }
+  .addon-add-btn:hover { background: var(--purple-95); }
+  .addon-add-btn.added {
+    background: var(--purple-60);
+    color: var(--white);
+    border-color: var(--purple-60);
+  }
+  .addon-add-btn svg { width: 12px; height: 12px; }
+  .addon-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .addon-name {
+    color: var(--gray-10);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .addon-price {
+    color: var(--purple-60);
+    font-weight: 500;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .offer-bottom-bar {
+    padding: 16px 28px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-95);
+    flex-shrink: 0;
+  }
+  .offer-bottom-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .copy-link-btn {
+    height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--purple-90);
+    background: var(--white);
+    color: var(--purple-60);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .copy-link-btn:hover { background: var(--purple-95); }
+  .copy-link-btn svg { width: 14px; height: 14px; }
+  .offer-pay-btn {
+    height: 44px;
+    padding: 0 28px;
+    background: var(--purple-60);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .offer-pay-btn:hover { background: var(--purple-50); }
+  .offer-terms {
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-50);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+  .offer-terms a {
+    color: var(--purple-60);
+    text-decoration: none;
+  }
+
+  /* Back arrow button (reused in wizard/offer headers) */
+  .drawer-icon-btn.back {
+    color: var(--gray-30);
+  }
+  .drawer-icon-btn.back:hover {
+    background: var(--gray-95);
+    color: var(--gray-10);
+  }
+
+  /* ===== Policy edit panel (Edit policy → policy edit view) ===== */
+  .policy-edit-title-block {
+    padding: 4px 28px 12px;
+  }
+  .policy-edit-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--gray-10);
+    margin: 0 0 6px;
+  }
+  .policy-edit-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--gray-30);
+  }
+  .policy-edit-number {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--gray-50);
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+  }
+  .policy-edit-number-copy {
+    cursor: pointer;
+    color: var(--gray-60);
+    display: inline-flex;
+  }
+  .policy-edit-number-copy:hover { color: var(--purple-60); }
+
+  .policy-edit-tabs {
+    display: flex;
+    gap: 24px;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--gray-95);
+  }
+  .policy-edit-tab {
+    padding: 12px 0;
+    color: var(--gray-30);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .policy-edit-tab:hover { color: var(--gray-10); }
+  .policy-edit-tab.active {
+    color: var(--purple-60);
+    border-bottom-color: var(--purple-60);
+  }
+
+  .policy-edit-body {
+    padding: 20px 28px 24px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .policy-edit-section {
+    margin-bottom: 22px;
+  }
+  .policy-edit-section:last-child { margin-bottom: 0; }
+  .policy-edit-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-30);
+    margin-bottom: 6px;
+  }
+  .policy-edit-main-name {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gray-10);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .policy-edit-main-meta {
+    font-size: 14px;
+    color: var(--gray-40);
+    margin-top: 2px;
+  }
+  .policy-edit-additional-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-10);
+    margin-bottom: 4px;
+  }
+  .policy-edit-additional-desc {
+    font-size: 13px;
+    color: var(--gray-40);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .policy-edit-bottom {
+    padding: 16px 28px 20px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-95);
+    flex-shrink: 0;
+  }
+  .policy-edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .policy-discard-btn {
+    height: 44px;
+    padding: 0 28px;
+    border: 1px solid var(--purple-90);
+    background: var(--white);
+    color: var(--purple-60);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .policy-discard-btn:hover { background: var(--purple-95); }
+  .policy-save-btn {
+    height: 44px;
+    padding: 0 28px;
+    background: var(--gray-50);
+    color: var(--white);
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .policy-save-btn:hover { background: var(--gray-30); }
+  .policy-edit-helper {
+    text-align: center;
+    font-size: 12px;
+    color: var(--gray-50);
+    margin-top: 12px;
+  }
+
+  /* Tab content empty/list styles */
+  .tab-empty {
+    text-align: center;
+    padding: 32px 24px;
+    color: var(--gray-50);
+  }
+  .tab-empty-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--gray-10);
+    margin-bottom: 4px;
+  }
+  .tab-empty-desc {
+    font-size: 13px;
+    color: var(--gray-40);
+    line-height: 1.5;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .flight-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-90);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    background: var(--white);
+  }
+  .flight-num {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-10);
+  }
+  .flight-detail {
+    font-size: 13px;
+    color: var(--gray-40);
+    margin-top: 2px;
+  }
+  .flight-row-actions {
+    display: flex;
+    gap: 4px;
+  }
+  .flight-row-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--gray-40);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .flight-row-btn:hover {
+    background: var(--gray-95);
+    color: var(--gray-10);
+  }
+  .flight-row-btn svg { width: 14px; height: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ====== Header ====== -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">faye</div>
+    <div class="user-strip">
+      <div class="user-avatar">SO</div>
+      <div class="user-name">Shoval Ozeri</div>
+      <button class="icon-btn" title="Switch account">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-tabs">
+      <span class="tab">Home</span>
+      <span class="tab active">Dashboard</span>
+      <span class="tab">FAQ's</span>
+      <span class="tab">Resources</span>
+    </div>
+    <div class="header-icons">
+      <button class="icon-btn-lg" title="Messages">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </button>
+      <button class="icon-btn-lg" title="Notifications">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Page ====== -->
+<div class="page">
+
+  <!-- Greeting / top comp -->
+  <div class="top-comp">
+    <div class="top-illustration" aria-hidden="true">
+      <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 36a8 8 0 0 1 0-16 10 10 0 0 1 19 2 7 7 0 0 1 12 6 6 6 0 0 1-6 8H16z"/>
+        <path d="M22 44l-2 6M32 44l-2 6M42 44l-2 6"/>
+      </svg>
+    </div>
+    <div class="greeting-block">
+      <h1>Hi Shoval,</h1>
+      <p>Today's a good day to make a sale with Faye.</p>
+    </div>
+  </div>
+
+  <!-- Search / filters row -->
+  <div class="filter-row">
+    <input class="search-input" placeholder="Search name, policy or email" />
+    <div class="filter-spacer"></div>
+    <label class="toggle">
+      <input type="checkbox" id="show-inactive" />
+      <span class="toggle-track"></span>
+      Show inactive
+    </label>
+    <button class="filter-by-btn">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+      Filter by
+    </button>
+  </div>
+
+  <!-- Bulk action bar -->
+  <div class="bulk-bar" id="bulk-bar">
+    <span class="bulk-count" id="bulk-count">0 selected</span>
+    <button class="bulk-btn primary">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      Send reminder to all
+    </button>
+    <button class="bulk-btn">Export</button>
+    <button class="bulk-btn">Archive</button>
+    <div class="bulk-spacer"></div>
+    <button class="bulk-close" onclick="clearSelection()">
+      <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="chevron-cell"></th>
+          <th style="width: 36px;">
+            <span class="checkbox" id="select-all" onclick="toggleSelectAll()"></span>
+          </th>
+          <th>Client</th>
+          <th>Trip</th>
+          <th>Plan &amp; price</th>
+          <th style="width: 140px;">Status</th>
+          <th style="width: 240px;">Action</th>
+          <th style="width: 40px;"></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="demo-widget" aria-label="Animation demo controls">
+  <div class="demo-widget-title">Confetti palette</div>
+  <div class="demo-options">
+    <button class="demo-option" data-palette="purple">Purple</button>
+    <button class="demo-option active" data-palette="signals">Signals</button>
+    <button class="demo-option" data-palette="pastels">Pastels</button>
+  </div>
+  <div class="demo-help">Click any Purchase button. All palettes use only Faye colors.</div>
+
+  <button class="demo-reset" onclick="resetDemo()">↺ Reset state</button>
+</div>
+
+<div class="menu-dropdown" id="row-menu"></div>
+
+<div class="drawer-overlay" id="drawer-overlay" onclick="onScrimClick(event)">
+  <aside class="drawer" role="dialog" aria-modal="true" id="drawer-shell">
+    <div id="drawer-content"></div>
+  </aside>
+</div>
+
+<script>
+  const TODAY = new Date('2026-05-10');
+
+  // Plan names: Faye First (basic), Faye Forward (mid), Faye Flagship (premium)
+  const policies = [
+    {
+      id: 'p1', client: 'Sarah Mitchell', email: 'sarah.mitchell@gmail.com',
+      destination: 'Tokyo, Japan',
+      tripStart: '2026-05-12', tripEnd: '2026-05-22',
+      plan: 'Faye Flagship', price: 187, status: 'quote_created',
+      hasCfar: true
+    },
+    {
+      id: 'p2', client: 'James Park', email: 'james.park@outlook.com',
+      destination: 'Lisbon, Portugal',
+      tripStart: '2026-05-15', tripEnd: '2026-05-25',
+      plan: 'Faye Forward', price: 124, status: 'quote_created',
+      hasCfar: true
+    },
+    {
+      id: 'p3', client: 'Maria Gonzalez', email: 'maria.g@gmail.com',
+      destination: 'Bali, Indonesia',
+      tripStart: '2026-05-25', tripEnd: '2026-06-08',
+      plan: 'Faye Flagship', price: 312, status: 'active',
+      paidAt: '2026-04-15', docsAdded: false,
+      policyNumber: 'P26-mg9k3xa',
+      tripCost: 3500,
+      additionalTravelers: [
+        { name: 'John Gonzalez', email: 'john.g@gmail.com' },
+        { name: 'Sarah Gonzalez', email: 'sarah.g@gmail.com' }
+      ]
+    },
+    {
+      id: 'p4', client: 'David Chen', email: 'd.chen@gmail.com',
+      destination: 'Reykjavik, Iceland',
+      tripStart: '2026-06-15', tripEnd: '2026-06-22',
+      plan: 'Faye Forward', price: 98, status: 'quote_created'
+    },
+    {
+      id: 'p5', client: 'Emma Williams', email: 'emma.williams@gmail.com',
+      destination: 'Cape Town, South Africa',
+      tripStart: '2026-06-20', tripEnd: '2026-07-05',
+      status: 'draft'
+    },
+    {
+      id: 'p6', client: 'Tom Anderson', email: 'tom.anderson@gmail.com',
+      destination: 'Barcelona, Spain',
+      tripStart: '2026-05-08', tripEnd: '2026-05-14',
+      plan: 'Faye Flagship', price: 156, status: 'active',
+      paidAt: '2026-04-20', docsAdded: true,
+      policyNumber: 'P26-ta2h7nb'
+    },
+    {
+      id: 'p7', client: 'Priya Patel', email: 'priya.patel@gmail.com',
+      destination: 'Auckland, New Zealand',
+      tripStart: '2026-05-30', tripEnd: '2026-06-15',
+      plan: 'Faye Flagship', price: 287, status: 'active',
+      paidAt: '2026-05-01', docsAdded: true,
+      policyNumber: 'P26-pp4d9wq',
+      tripCost: 4200,
+      additionalTravelers: [
+        { name: 'Arjun Patel', email: 'arjun.patel@gmail.com' }
+      ]
+    },
+    {
+      id: 'p8', client: 'Robert Johnson', email: 'r.johnson@gmail.com',
+      destination: 'Paris, France',
+      tripStart: '2026-06-22', tripEnd: '2026-07-02',
+      plan: 'Faye Forward', price: 110, status: 'active',
+      paidAt: '2026-04-20', docsAdded: true,
+      policyNumber: 'P26-rj1c8zv'
+    },
+    {
+      id: 'p9', client: 'Lisa Brown', email: 'lisa.b@gmail.com',
+      destination: 'Marrakech, Morocco',
+      tripStart: '2026-05-20', tripEnd: '2026-05-30',
+      plan: 'Faye First', price: 134, status: 'cancelled',
+      cancelledAt: '2026-05-03',
+      policyNumber: 'P26-lb6f2mt'
+    },
+    {
+      id: 'p10', client: 'Michael Lee', email: 'm.lee@gmail.com',
+      destination: 'Hanoi, Vietnam',
+      tripStart: '2026-04-10', tripEnd: '2026-04-20',
+      plan: 'Faye Forward', price: 142, status: 'expired'
+    },
+    {
+      id: 'p11', client: 'Anna Schmidt', email: 'anna.s@outlook.com',
+      destination: 'Athens, Greece',
+      tripStart: '2026-06-10', tripEnd: '2026-06-18',
+      plan: 'Faye Flagship', price: 178, status: 'quote_created',
+      hasCfar: true
+    },
+    // ===== Roster A: Holiday Quotes.xlsx
+    // Bulk upload — quotes for unrelated trips combined into one roster
+    // to speed up creation. Different travelers, destinations, dates.
+    {
+      id: 'p_a1', client: 'Sarah Chen', email: 's.chen@gmail.com',
+      destination: 'Bangkok, Thailand',
+      tripStart: '2026-08-05', tripEnd: '2026-08-15',
+      plan: 'Faye Forward', price: 168, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+    {
+      id: 'p_a2', client: 'Mike Patel', email: 'mike.patel@gmail.com',
+      destination: 'Rome, Italy',
+      tripStart: '2026-09-10', tripEnd: '2026-09-18',
+      plan: 'Faye Forward', price: 215, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx',
+      additionalTravelers: [{ name: 'Lisa Patel', email: 'lisa.patel@gmail.com' }]
+    },
+    {
+      id: 'p_a3', client: 'Jordan Lee', email: 'jordan.l@gmail.com',
+      destination: 'Mexico City, Mexico',
+      tripStart: '2026-07-01', tripEnd: '2026-07-07',
+      plan: 'Faye First', price: 89, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+    {
+      id: 'p_a4', client: 'Hannah Kim', email: 'hannah.kim@gmail.com',
+      destination: 'Tokyo, Japan',
+      tripStart: '2026-08-20', tripEnd: '2026-09-01',
+      plan: 'Faye Flagship', price: 380, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx',
+      additionalTravelers: [
+        { name: 'Daniel Kim', email: 'daniel.kim@gmail.com' },
+        { name: 'Mia Kim', email: 'mia.kim@gmail.com' }
+      ]
+    },
+    {
+      id: 'p_a5', client: 'Carla Rivera', email: 'c.rivera@gmail.com',
+      destination: 'Stockholm, Sweden',
+      tripStart: '2026-09-25', tripEnd: '2026-10-02',
+      plan: 'Faye Forward', price: 142, status: 'quote_created',
+      rosterId: 'r2', rosterName: 'Holiday Quotes.xlsx'
+    },
+
+    // ===== Roster B: Smith Family Reunion
+    // Same trip and dates for everyone. Each sub-quote covers different
+    // people from a different state of residence — which affects price
+    // and coverage. Mix of solo, couple, and family sub-quotes.
+    {
+      id: 'p_b1', client: 'Robert Smith', email: 'robert.smith@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Forward', price: 234, status: 'quote_created',
+      state: 'California',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [{ name: 'Jane Smith', email: 'jane.smith@gmail.com' }]
+    },
+    {
+      id: 'p_b2', client: 'David Smith Jr.', email: 'david.smithjr@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Forward', price: 156, status: 'quote_created',
+      state: 'Texas',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion'
+    },
+    {
+      id: 'p_b3', client: 'Emma Wong', email: 'emma.wong@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Flagship', price: 412, status: 'active',
+      state: 'New York',
+      paidAt: '2026-04-28', docsAdded: false,
+      policyNumber: 'P26-ew4n9km',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [
+        { name: 'Marcus Wong', email: 'marcus.wong@gmail.com' },
+        { name: 'Sophie Wong', email: 'sophie.wong@gmail.com' }
+      ]
+    },
+    {
+      id: 'p_b4', client: 'Lily Smith', email: 'lily.smith@gmail.com',
+      destination: 'San José, Costa Rica',
+      tripStart: '2026-11-12', tripEnd: '2026-11-22',
+      plan: 'Faye Forward', price: 268, status: 'quote_created',
+      state: 'Florida',
+      rosterId: 'r3', rosterName: 'Smith Family Reunion',
+      additionalTravelers: [{ name: 'Mark Davis', email: 'mark.davis@gmail.com' }]
+    }
+  ];
+
+  // ===== State
+  const selection = new Set();
+  const expandedRosters = new Set(); // collapsed by default
+
+  // Per-entity notes, persisted in memory only.
+  const notes = {
+    p1: "Spoke with client on Apr 28 — they're traveling for a work conference, definitely want CFAR. Will purchase by end of week."
+  };
+  function setNote(id, value) { notes[id] = value; }
+  let showInactive = false;
+  const TERMINAL = ['cancelled', 'declined', 'expired', 'completed'];
+  // States hidden from the default view; revealed by "Show inactive" toggle.
+  const INACTIVE = ['cancelled', 'declined', 'expired', 'completed'];
+
+  function rosterChildren(rosterId) {
+    return policies.filter(p => p.rosterId === rosterId);
+  }
+  function rosterSelectionState(rosterId) {
+    const kids = rosterChildren(rosterId);
+    const sel = kids.filter(c => selection.has(c.id)).length;
+    if (sel === 0) return 'none';
+    if (sel === kids.length) return 'all';
+    return 'partial';
+  }
+  function toggleRosterExpand(rosterId) {
+    if (expandedRosters.has(rosterId)) expandedRosters.delete(rosterId);
+    else expandedRosters.add(rosterId);
+    renderTable();
+  }
+  function toggleRosterSelection(rosterId) {
+    const kids = rosterChildren(rosterId);
+    const state = rosterSelectionState(rosterId);
+    if (state === 'all') kids.forEach(c => selection.delete(c.id));
+    else kids.forEach(c => selection.add(c.id));
+    updateBulkBar();
+    renderTable();
+  }
+
+  // ===== Helpers
+  const fmtDate = (s) => new Date(s).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const fmtRange = (a, b) => `${fmtDate(a)} – ${fmtDate(b)}, ${new Date(a).getFullYear()}`;
+  const daysUntil = (s) => Math.ceil((new Date(s) - TODAY) / (1000 * 60 * 60 * 24));
+  const hoursUntil = (s) => Math.ceil((new Date(s) - TODAY) / (1000 * 60 * 60));
+
+  function tripPhase(p) {
+    if (p.status !== 'active') return null;
+    const startDays = daysUntil(p.tripStart);
+    const endDays = daysUntil(p.tripEnd);
+    if (startDays > 0) return 'pre';
+    if (endDays >= 0) return 'in';
+    return 'post';
+  }
+
+  function getStatusBadge(p) {
+    switch (p.status) {
+      case 'draft': return { cls: 'badge-neutral', text: 'Draft' };
+      case 'quote_created': return { cls: 'badge-warning', text: 'Quote created' };
+      case 'active': {
+        const phase = tripPhase(p);
+        if (phase === 'pre') return { cls: 'badge-success', text: 'Pre-trip' };
+        if (phase === 'in') return { cls: 'badge-success', text: 'In trip' };
+        if (phase === 'post') return { cls: 'badge-success', text: 'Post-trip' };
+        return { cls: 'badge-success', text: 'Active' };
+      }
+      case 'completed': return { cls: 'badge-neutral', text: 'Completed' };
+      case 'cancelled': return { cls: 'badge-error', text: 'Cancelled' };
+      case 'declined': return { cls: 'badge-neutral', text: 'Declined' };
+      case 'expired': return { cls: 'badge-neutral', text: 'Expired' };
+    }
+  }
+
+  function getUrgency(p) {
+    if (p.status !== 'quote_created') return null;
+    const days = daysUntil(p.tripStart);
+    if (days <= 0) return null;
+
+    // Universal: inside 48h, trip cancellation coverage is the imminent loss.
+    if (days <= 2) {
+      const hours = hoursUntil(p.tripStart);
+      return { tier: 'crit', text: `${hours}h to lock in trip cancellation` };
+    }
+
+    // From here on, only quotes that include CFAR have a relevant countdown.
+    if (!p.hasCfar) return null;
+
+    // Inside the 7-day CFAR window.
+    if (days <= 7) {
+      return { tier: 'warn', text: `${days}d to lock in CFAR` };
+    }
+
+    // Soft approach to the CFAR window (within ~2 weeks of the deadline).
+    const cfarDaysLeft = days - 7;
+    if (cfarDaysLeft <= 14) {
+      return { tier: 'soft', text: `${cfarDaysLeft}d to lock in CFAR` };
+    }
+
+    return null;
+  }
+
+  function getUrgencyRank(p) {
+    const u = getUrgency(p);
+    if (u?.tier === 'crit') return 0;
+    if (u?.tier === 'warn') return 1;
+    if (u?.tier === 'soft') return 3;
+    if (p.status === 'draft') return 4;
+    if (p.status === 'active' && tripPhase(p) === 'pre' && !p.docsAdded) return 5;
+    if (p.status === 'quote_created') return 6;
+    if (p.status === 'active') return 7;
+    if (p.status === 'completed') return 8;
+    if (TERMINAL.includes(p.status)) return 9;
+    return 10;
+  }
+
+  // ===== Cell renderers
+
+  function clientCell(p) {
+    const event = p.event ? `<span class="event-tag"><span class="event-dot"></span>${p.event}</span>` : '';
+    return `
+      <div class="stack">
+        <div class="cell-primary">${p.client}</div>
+        <div class="cell-secondary">${p.email}</div>
+        ${event}
+      </div>
+    `;
+  }
+
+  function tripCell(p) {
+    return `
+      <div class="stack">
+        <div class="cell-primary">${p.destination}</div>
+        <div class="cell-secondary">${fmtRange(p.tripStart, p.tripEnd)}</div>
+      </div>
+    `;
+  }
+
+  function planCell(p) {
+    if (!p.plan) {
+      return `<span class="action-empty">—</span>`;
+    }
+    // Plan name only — add-ons (incl. CFAR) live in the side panel,
+    // not in the table.
+    // Post-purchase: secondary line is the policy number (monospace).
+    // Pre-purchase: secondary line is the plan name.
+    const secondaryLine = p.policyNumber
+      ? `<span class="policy-num-inline">${p.policyNumber}<span class="policy-num-copy" title="Copy policy number">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span></span>`
+      : `<span class="cell-secondary">${p.plan}</span>`;
+    return `
+      <div class="stack">
+        <div class="cell-primary">$${p.price}</div>
+        ${secondaryLine}
+      </div>
+    `;
+  }
+
+  function statusCell(p) {
+    const s = getStatusBadge(p);
+    return `<span class="badge ${s.cls}">${s.text}</span>`;
+  }
+
+  function urgencyHtml(p) {
+    const u = getUrgency(p);
+    if (!u) return '';
+    // Extract just the time portion ("47h" or "5d") for the minimal chip.
+    const match = u.text.match(/^(\d+[hd])\s+to lock in\s+(.+)$/);
+    if (!match) return '';
+    const time = match[1];
+    const coverage = match[2];
+    const icon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>`;
+    return `<span class="urgency-chip urgency-${u.tier}" data-tooltip="${time} to lock in ${coverage}" aria-label="${time} to lock in ${coverage}">${icon}${time}</span>`;
+  }
+
+  function actionCell(p) {
+    let action = '';
+    if (p.status === 'draft') {
+      action = `<button class="btn-secondary">Select a plan</button>`;
+    } else if (p.status === 'quote_created') {
+      action = `<button class="btn-secondary" onclick="purchaseQuote('${p.id}', event)">Purchase</button>`;
+    } else if (p.status === 'active') {
+      const phase = tripPhase(p);
+      if (phase === 'pre' && !p.docsAdded) {
+        action = `<button class="btn-secondary">Add flights &amp; docs</button>`;
+      } else if (phase === 'pre' && p.docsAdded) {
+        action = `<span class="action-text">Ready</span>`;
+      } else if (phase === 'in' && !p.docsAdded) {
+        action = `<button class="btn-text">Add flights &amp; docs</button>`;
+      } else {
+        action = `<span class="action-empty">—</span>`;
+      }
+    } else {
+      action = `<span class="action-empty">—</span>`;
+    }
+    return `<div class="action-stack">${action}${urgencyHtml(p)}</div>`;
+  }
+
+  // ===== Table render
+
+  function passesFilter(p) {
+    // Hide terminal states (cancelled, declined, expired, completed) unless
+    // the "Show inactive" toggle is on.
+    if (!showInactive && INACTIVE.includes(p.status)) return false;
+    return true;
+  }
+
+  function renderPolicyRow(p, isChild = false) {
+    const isSelected = selection.has(p.id);
+    return `
+      <tr class="${isSelected ? 'selected' : ''} ${isChild ? 'roster-child' : ''}" data-id="${p.id}" onclick="rowClicked(event, '${p.id}')">
+        <td class="chevron-cell"></td>
+        <td><span class="checkbox ${isSelected ? 'checked' : ''}" onclick="toggleSelect('${p.id}')"></span></td>
+        <td>${clientCell(p)}</td>
+        <td>${tripCell(p)}</td>
+        <td>${planCell(p)}</td>
+        <td>${statusCell(p)}</td>
+        <td>${actionCell(p)}</td>
+        <td style="text-align: right;">
+          <button class="more-btn" onclick="openMenu(event, '${p.id}')">
+            <svg class="icon-md" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18" r="1.6"/></svg>
+          </button>
+        </td>
+      </tr>
+    `;
+  }
+
+  function renderRosterRow(rosterId, kids) {
+    const rosterName = kids[0].rosterName;
+    const expanded = expandedRosters.has(rosterId);
+    const selState = rosterSelectionState(rosterId);
+    const checkClass = selState === 'all' ? 'checked' : (selState === 'partial' ? 'partial' : '');
+
+    // Aggregate trip
+    const destSet = [...new Set(kids.map(k => k.destination))];
+    const startSet = [...new Set(kids.map(k => k.tripStart))];
+    const endSet = [...new Set(kids.map(k => k.tripEnd))];
+    const destText = destSet.length === 1 ? destSet[0] : 'Multiple destinations';
+    const dateText = (startSet.length === 1 && endSet.length === 1)
+      ? `${fmtDate(startSet[0])} – ${fmtDate(endSet[0])}, ${new Date(startSet[0]).getFullYear()}`
+      : 'Multiple dates';
+
+    // Aggregate plan & price
+    const planSet = [...new Set(kids.map(k => k.plan).filter(Boolean))];
+    const totalPrice = kids.reduce((sum, k) => sum + (k.price || 0), 0);
+    const planLabel = planSet.length === 0 ? '—'
+      : planSet.length === 1 ? planSet[0]
+      : 'Mixed plans';
+
+    let html = `
+      <tr class="roster-parent ${expanded ? 'expanded' : ''}" data-roster="${rosterId}" onclick="rowClicked(event, 'roster:${rosterId}')">
+        <td class="chevron-cell">
+          <button class="chevron-btn ${expanded ? 'expanded' : ''}" onclick="toggleRosterExpand('${rosterId}')" aria-label="${expanded ? 'Collapse' : 'Expand'} group">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+          </button>
+        </td>
+        <td><span class="checkbox ${checkClass}" onclick="toggleRosterSelection('${rosterId}')"></span></td>
+        <td>
+          <div class="stack">
+            <div class="cell-primary">${rosterName}</div>
+            <div class="cell-secondary">${kids.length} quotes · ${kids.reduce((s, k) => s + 1 + (k.additionalTravelers?.length || 0), 0)} travelers</div>
+          </div>
+        </td>
+        <td>
+          <div class="stack">
+            <div class="cell-primary">${destText}</div>
+            <div class="cell-secondary">${dateText}</div>
+          </div>
+        </td>
+        <td>
+          <div class="stack">
+            <div class="cell-primary">$${totalPrice} total</div>
+            <div class="cell-secondary">${planLabel}</div>
+          </div>
+        </td>
+        <td></td>
+        <td><span class="action-empty">—</span></td>
+        <td style="text-align: right;">
+          <button class="more-btn" onclick="openMenu(event, 'roster:${rosterId}')">
+            <svg class="icon-md" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18" r="1.6"/></svg>
+          </button>
+        </td>
+      </tr>
+    `;
+
+    if (expanded) {
+      html += kids.map(k => renderPolicyRow(k, true)).join('');
+    }
+    return html;
+  }
+
+  function renderTable() {
+    // Split filtered policies into rostered vs. solo
+    const visible = policies.filter(passesFilter);
+    const soloRows = [];
+    const rosterMap = new Map();
+    visible.forEach(p => {
+      if (p.rosterId) {
+        if (!rosterMap.has(p.rosterId)) rosterMap.set(p.rosterId, []);
+        rosterMap.get(p.rosterId).push(p);
+      } else {
+        soloRows.push(p);
+      }
+    });
+
+    // Stable sort by displayOrder so rows stay anchored to their position
+    // regardless of state changes (purchase, edit, etc.).
+    const entries = [];
+    soloRows.forEach(p => entries.push({ type: 'solo', rank: p.displayOrder, payload: p }));
+    rosterMap.forEach((kids, id) => {
+      const minRank = Math.min(...kids.map(k => k.displayOrder));
+      entries.push({ type: 'roster', rank: minRank, payload: { id, kids } });
+    });
+    entries.sort((a, b) => a.rank - b.rank);
+
+    const tbody = document.getElementById('rows');
+    if (entries.length === 0) {
+      tbody.innerHTML = `<tr class="empty-row"><td colspan="8">No policies to show.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = entries.map(e =>
+      e.type === 'solo'
+        ? renderPolicyRow(e.payload, false)
+        : renderRosterRow(e.payload.id, e.payload.kids)
+    ).join('');
+  }
+
+  // ===== Selection
+  function toggleSelect(id) {
+    if (selection.has(id)) selection.delete(id); else selection.add(id);
+    updateBulkBar();
+    renderTable();
+  }
+  function toggleSelectAll() {
+    const ids = Array.from(document.querySelectorAll('#rows tr')).map(r => r.dataset.id).filter(Boolean);
+    const all = ids.every(id => selection.has(id));
+    if (all) ids.forEach(id => selection.delete(id));
+    else ids.forEach(id => selection.add(id));
+    updateBulkBar();
+    renderTable();
+    updateSelectAll();
+  }
+  function updateSelectAll() {
+    const ids = Array.from(document.querySelectorAll('#rows tr')).map(r => r.dataset.id).filter(Boolean);
+    const cb = document.getElementById('select-all');
+    if (ids.length > 0 && ids.every(id => selection.has(id))) cb.classList.add('checked');
+    else cb.classList.remove('checked');
+  }
+  function clearSelection() {
+    selection.clear();
+    updateBulkBar();
+    renderTable();
+    updateSelectAll();
+  }
+  function updateBulkBar() {
+    const bar = document.getElementById('bulk-bar');
+    if (selection.size > 0) {
+      bar.classList.add('visible');
+      document.getElementById('bulk-count').textContent = `${selection.size} selected`;
+    } else {
+      bar.classList.remove('visible');
+    }
+  }
+
+  // ===== Show inactive toggle
+  document.getElementById('show-inactive').addEventListener('change', (e) => {
+    showInactive = e.target.checked;
+    renderTable();
+  });
+
+  // ===== 3-dot menu
+  function openMenu(e, id) {
+    e.stopPropagation();
+    const menu = document.getElementById('row-menu');
+
+    // Roster-level menu
+    if (id.startsWith('roster:')) {
+      const rosterId = id.replace('roster:', '');
+      const kids = rosterChildren(rosterId);
+      if (!kids.length) return;
+      menu.innerHTML = `
+        <div class="menu-item" onclick="closeMenu()">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          View roster details
+        </div>
+        <div class="menu-item" onclick="closeMenu()">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Send group reminder
+        </div>
+        <div class="menu-item" onclick="closeMenu()">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export roster CSV
+        </div>
+        <div class="menu-divider"></div>
+        <div class="menu-item" onclick="closeMenu()">
+          <svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add traveler to roster
+        </div>
+      `;
+      menu.classList.add('visible');
+      const rect = e.currentTarget.getBoundingClientRect();
+      menu.style.top = (window.scrollY + rect.bottom + 4) + 'px';
+      menu.style.left = (rect.right - 220) + 'px';
+      return;
+    }
+
+    const p = policies.find(x => x.id === id);
+    if (!p) return;
+    const isQuote = p.status === 'quote_created';
+    const isDraft = p.status === 'draft';
+    const isActive = p.status === 'active';
+    const isPreTrip = isActive && tripPhase(p) === 'pre';
+    const isCompleted = p.status === 'completed';
+    const isTerminal = TERMINAL.includes(p.status);
+
+    // Mirror the drawer's quick actions + more menu for this row type.
+    const items = [{ icon: 'eye', label: 'View details' }];
+    const dangerItems = [];
+
+    if (isQuote) {
+      items.push(
+        { icon: 'email', label: 'Email' },
+        { icon: 'link', label: 'Copy link' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      );
+      dangerItems.push(
+        { icon: 'x', label: 'Mark as declined' },
+        { icon: 'trash', label: 'Delete quote' }
+      );
+    } else if (isActive) {
+      items.push(
+        { icon: 'email', label: 'Email' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' }
+      );
+      if (isPreTrip) {
+        items.push({ icon: 'edit', label: 'Edit policy' });
+        if (!p.docsAdded) {
+          items.push({ icon: 'plus', label: 'Add flights & docs' });
+        }
+      }
+      items.push({ icon: 'duplicate', label: 'Duplicate quote' });
+      dangerItems.push({ icon: 'trash', label: 'Cancel policy' });
+    } else if (isDraft) {
+      items.push(
+        { icon: 'edit', label: 'Continue editing' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      );
+      dangerItems.push({ icon: 'trash', label: 'Delete draft' });
+    } else if (isCompleted) {
+      items.push(
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' },
+        { icon: 'duplicate', label: 'Duplicate quote' }
+      );
+    } else {
+      // cancelled / declined / expired
+      items.push(
+        { icon: 'duplicate', label: 'Duplicate quote' },
+        { icon: 'download', label: 'Download PDF' }
+      );
+    }
+
+    // "Add note" is contextual for almost every row type
+    items.push({ icon: 'chat', label: 'Add note' });
+
+    let html = items.map(i => `
+      <div class="menu-item" onclick="closeMenu()">
+        ${menuIcon(i.icon)}
+        ${i.label}
+      </div>
+    `).join('');
+    if (dangerItems.length) {
+      html += '<div class="menu-divider"></div>';
+      html += dangerItems.map(i => `
+        <div class="menu-item danger" onclick="closeMenu()">
+          ${menuIcon(i.icon)}
+          ${i.label}
+        </div>
+      `).join('');
+    }
+
+    menu.innerHTML = html;
+    menu.classList.add('visible');
+    const rect = e.currentTarget.getBoundingClientRect();
+    menu.style.top = (window.scrollY + rect.bottom + 4) + 'px';
+    menu.style.left = (rect.right - 220) + 'px';
+  }
+  function closeMenu() {
+    document.getElementById('row-menu').classList.remove('visible');
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.menu-dropdown') && !e.target.closest('.more-btn')) closeMenu();
+  });
+
+  // ===== Side panel (drawer)
+  function rowClicked(e, id) {
+    // Ignore clicks on interactive elements within the row
+    if (e.target.closest('button, .checkbox, a, input, .chevron-btn, .more-btn, .policy-num-copy')) return;
+    openDrawer(id);
+  }
+
+  // ===== Drawer view state
+  let drawerView = 'summary';
+  let drawerEntityId = null;
+  let drawerTab = 'details'; // active tab when drawerView === 'policy-edit'
+  let drawerHistory = []; // entity IDs visited (e.g., roster:r1 → p12 supports going back)
+
+  function openDrawer(id) {
+    drawerEntityId = id;
+    drawerView = 'summary';
+    drawerHistory = [];
+    renderDrawer({ animate: false });
+    document.getElementById('drawer-overlay').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Drill from one entity to another inside the drawer (e.g., from a roster
+  // to one of its travelers). Pushes the previous entity onto the history
+  // stack so the back arrow can return to it.
+  function navigateToEntity(id) {
+    if (drawerEntityId) drawerHistory.push(drawerEntityId);
+    drawerEntityId = id;
+    drawerView = 'summary';
+    renderDrawer({ animate: true });
+  }
+  function drawerBack() {
+    if (drawerHistory.length === 0) return;
+    drawerEntityId = drawerHistory.pop();
+    drawerView = 'summary';
+    renderDrawer({ animate: true });
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer-overlay').classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  function showWizardView() {
+    drawerView = 'wizard';
+    renderDrawer({ animate: true });
+  }
+  function showOfferView() {
+    drawerView = 'offer';
+    renderDrawer({ animate: true });
+  }
+  function showPolicyEditView(tab) {
+    drawerView = 'policy-edit';
+    drawerTab = tab || 'details';
+    renderDrawer({ animate: true });
+  }
+  function switchPolicyTab(tab) {
+    if (drawerTab === tab) return;
+    drawerTab = tab;
+    renderDrawer({ animate: true });
+  }
+  function backToSummary() {
+    drawerView = 'summary';
+    renderDrawer({ animate: true });
+  }
+
+  function renderDrawer(opts = {}) {
+    const shell = document.getElementById('drawer-shell');
+    const content = document.getElementById('drawer-content');
+
+    // Wider drawer for the offer view; standard width elsewhere.
+    shell.classList.toggle('wide', drawerView === 'offer');
+
+    const htmlFor = () => {
+      if (drawerView === 'summary') return renderSummaryShell(drawerEntityId);
+      if (drawerView === 'wizard') return renderWizardShell(drawerEntityId);
+      if (drawerView === 'offer')   return renderOfferShell(drawerEntityId);
+      if (drawerView === 'policy-edit') return renderPolicyEditShell(drawerEntityId);
+      return '';
+    };
+
+    if (opts.animate) {
+      // Cross-fade: fade out current content, swap, fade back in.
+      content.classList.add('fading');
+      setTimeout(() => {
+        content.innerHTML = htmlFor();
+        content.classList.remove('fading');
+      }, 160);
+    } else {
+      content.innerHTML = htmlFor();
+    }
+  }
+
+  function toggleDrawerMore(e) {
+    e.stopPropagation();
+    document.getElementById('drawer-more-menu').classList.toggle('visible');
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#drawer-more-menu') && !e.target.closest('#drawer-more-btn')) {
+      const m = document.getElementById('drawer-more-menu');
+      if (m) m.classList.remove('visible');
+    }
+  });
+
+  function renderSummaryShell(id) {
+    const parts = drawerParts(id);
+    const hasBack = drawerHistory.length > 0;
+    const leading = hasBack
+      ? `<button class="drawer-icon-btn back" onclick="drawerBack()" aria-label="Back">
+           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+         </button>`
+      : `<button class="drawer-icon-btn" id="drawer-more-btn" onclick="toggleDrawerMore(event)" aria-label="More options">
+           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="18" r="1.6"/></svg>
+         </button>`;
+    return `
+      <div class="drawer-header-bar">
+        ${leading}
+        <button class="drawer-icon-btn close" onclick="closeDrawer()" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        ${hasBack ? '' : `<div class="drawer-more-menu" id="drawer-more-menu">${parts.moreMenu}</div>`}
+      </div>
+      ${parts.quickActions}
+      <div class="drawer-body">${parts.body}</div>
+      ${parts.bottom}
+    `;
+  }
+
+  function onScrimClick(e) {
+    if (e.target.id === 'drawer-overlay') closeDrawer();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  function toggleAccordion(headerEl) {
+    headerEl.parentElement.classList.toggle('expanded');
+  }
+
+  function dateMinusDays(dateStr, days) {
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() - days);
+    return d.toISOString().split('T')[0];
+  }
+
+  function fmtFullDate(s) {
+    const d = new Date(s);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function drawerParts(id) {
+    if (id.startsWith('roster:')) return rosterDrawerParts(id.slice(7));
+    return policyDrawerParts(id);
+  }
+
+  // ===== Quick action button helpers
+  function quickActionBtn(action) {
+    const onclick = action.action ? `onclick="${action.action}"` : '';
+    return `<button class="quick-action" ${onclick}>${getActionIcon(action.icon)}<span>${action.label}</span></button>`;
+  }
+  function buildQuickActions(actions) {
+    return `<div class="drawer-quick-actions">${actions.map(quickActionBtn).join('')}</div>`;
+  }
+  function buildMoreMenu(items) {
+    if (!items || !items.length) return '';
+    return items.map(i => `
+      <div class="drawer-more-item" onclick="closeDrawer()">
+        ${getActionIcon(i.icon)}
+        ${i.label}
+      </div>
+    `).join('');
+  }
+
+  // ===== Card section helpers
+  function tripCard(p, editAction) {
+    const extraTravelers = (p.additionalTravelers || []).length;
+    const travelerCount = 1 + extraTravelers;
+    const travelerLabel = extraTravelers > 0
+      ? `<span class="trip-traveler-count">· ${travelerCount} travelers</span>${cardIcon('chevron-down')}`
+      : '';
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">
+            ${cardIcon('map')}
+            TRIP DETAILS
+          </div>
+          ${editAction ? `<button class="drawer-edit-btn" onclick="${editAction}">${cardIcon('pencil')}Edit</button>` : ''}
+        </div>
+        <div class="trip-heading">${p.destination}</div>
+        <div class="trip-dates">${fmtFullDate(p.tripStart)} – ${fmtFullDate(p.tripEnd)}</div>
+        <div class="trip-traveler">
+          ${p.client}
+          ${travelerLabel}
+        </div>
+      </div>
+    `;
+  }
+
+  // Editable variant — used for pre-trip active policies. Mirrors the
+  // structure of the legacy policy panel (inline editable fields)
+  // wrapped in the new card layout.
+  function tripCardEditable(p) {
+    const travelerCount = 1 + (p.additionalTravelers?.length || 0);
+    const additional = p.additionalTravelers || [];
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">${cardIcon('map')}TRIP DETAILS</div>
+          <button class="drawer-edit-btn">${cardIcon('pencil')}Edit</button>
+        </div>
+
+        <div class="drawer-field-label">Main traveler</div>
+        <div class="drawer-main-traveler">${p.client}</div>
+        <div class="drawer-main-traveler-meta">${p.email} · ${travelerCount} traveler${travelerCount > 1 ? 's' : ''}</div>
+
+        <div class="drawer-field-label">Destinations</div>
+        <div class="drawer-input-wrap">
+          <input type="text" value="${p.destination}" />
+          ${cardIcon('chevron-down')}
+        </div>
+
+        <div class="drawer-field-label">Trip dates</div>
+        <div class="drawer-field-row">
+          <div>
+            <div class="drawer-field-sub">From</div>
+            <div class="drawer-input-wrap">
+              <input type="text" value="${fmtFullDate(p.tripStart)}" />
+              ${cardIcon('pencil')}
+            </div>
+          </div>
+          <div>
+            <div class="drawer-field-sub">To</div>
+            <div class="drawer-input-wrap">
+              <input type="text" value="${fmtFullDate(p.tripEnd)}" />
+              ${cardIcon('pencil')}
+            </div>
+          </div>
+        </div>
+
+        ${additional.length ? `
+          <div class="drawer-field-label">Additional travelers (${additional.length})</div>
+          ${additional.map((t, i) => `
+            <div class="accordion-item" data-idx="${i}">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span class="accordion-header-text">${t.name}</span>
+                ${cardIcon('chevron-down')}
+              </div>
+              <div class="accordion-content">
+                <div class="drawer-field-label" style="margin-top: 8px;">Name</div>
+                <input class="drawer-input" type="text" value="${t.name}" />
+                <div class="drawer-field-label">Email</div>
+                <input class="drawer-input" type="text" value="${t.email}" />
+              </div>
+            </div>
+          `).join('')}
+          <button class="add-traveler-btn">${cardIcon('plus')}Add traveler</button>
+        ` : `
+          <div class="drawer-field-label">Additional travelers</div>
+          <button class="add-traveler-btn">${cardIcon('plus')}Add traveler</button>
+        `}
+      </div>
+    `;
+  }
+
+  function coverageCardForQuote(p) {
+    const addons = p.hasCfar ? 'Cancel for any reason' : '—';
+    const badge = getStatusBadge(p);
+    const createdAt = p.createdAt || dateMinusDays(p.tripStart, 28);
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">
+            ${cardIcon('shield')}
+            COVERAGE
+          </div>
+          <button class="drawer-edit-btn" onclick="showOfferView()">${cardIcon('pencil')}Edit</button>
+        </div>
+        <div class="coverage-row"><span>Selected plan</span><span class="plan-chip">${p.plan || '—'}</span></div>
+        <div class="coverage-row"><span>Price</span><span>$${p.price || '—'}</span></div>
+        <div class="coverage-row"><span>Add-ons</span><span>${addons}</span></div>
+        <div class="coverage-divider"></div>
+        <div class="coverage-row"><span>Status</span><span><span class="badge ${badge.cls}">${badge.text}</span></span></div>
+        <div class="coverage-row"><span>Created on</span><span>${fmtFullDate(createdAt)}</span></div>
+      </div>
+    `;
+  }
+
+  function coverageCardForPolicy(p) {
+    const addons = p.hasCfar ? 'Cancel for any reason' : '—';
+    const badge = getStatusBadge(p);
+    const createdAt = p.createdAt || dateMinusDays(p.tripStart, 28);
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">
+            ${cardIcon('shield')}
+            COVERAGE
+          </div>
+        </div>
+        ${p.tripCost != null ? `<div class="coverage-row"><span>Trip cost</span><span>$${p.tripCost}</span></div>` : ''}
+        <div class="coverage-row"><span>Selected plan</span><span class="plan-chip">${p.plan || '—'}</span></div>
+        <div class="coverage-row"><span>Price</span><span>$${p.price || '—'}</span></div>
+        <div class="coverage-row"><span>Add-ons</span><span>${addons}</span></div>
+        <div class="coverage-divider"></div>
+        <div class="coverage-row"><span>Status</span><span><span class="badge ${badge.cls}">${badge.text}</span></span></div>
+        ${p.policyNumber ? `<div class="coverage-row"><span>Policy number</span><span class="policy-num-inline">${p.policyNumber}</span></div>` : ''}
+        ${p.paidAt ? `<div class="coverage-row"><span>Paid on</span><span>${fmtFullDate(p.paidAt)}</span></div>` : ''}
+        <div class="coverage-row"><span>Quote created</span><span>${fmtFullDate(createdAt)}</span></div>
+      </div>
+    `;
+  }
+
+  // Editable variant for pre-trip active policies: trip cost as input,
+  // plan chip read-only, price auto-computed, add-ons editable, then
+  // the read-only metadata below the divider.
+  function coverageCardForPolicyEditable(p) {
+    const badge = getStatusBadge(p);
+    const createdAt = p.createdAt || dateMinusDays(p.tripStart, 28);
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">${cardIcon('shield')}COVERAGE</div>
+          <button class="drawer-edit-btn">${cardIcon('pencil')}Edit</button>
+        </div>
+
+        <div class="drawer-field-label">Trip cost</div>
+        <div class="drawer-input-wrap">
+          <input type="text" value="$${p.tripCost != null ? p.tripCost : ''}" />
+          ${cardIcon('pencil')}
+        </div>
+
+        <div class="coverage-row" style="margin-top: 14px;"><span>Selected plan</span><span class="plan-chip">${p.plan}</span></div>
+        <div class="coverage-row"><span>Price</span><span>$${p.price}</span></div>
+        <div class="coverage-row"><span>Add-ons</span><span>${p.hasCfar ? 'Cancel for any reason' : '—'}</span></div>
+
+        <div class="coverage-divider"></div>
+
+        <div class="coverage-row"><span>Status</span><span><span class="badge ${badge.cls}">${badge.text}</span></span></div>
+        ${p.policyNumber ? `<div class="coverage-row"><span>Policy number</span><span class="policy-num-inline">${p.policyNumber}</span></div>` : ''}
+        ${p.paidAt ? `<div class="coverage-row"><span>Paid on</span><span>${fmtFullDate(p.paidAt)}</span></div>` : ''}
+        <div class="coverage-row"><span>Quote created</span><span>${fmtFullDate(createdAt)}</span></div>
+      </div>
+    `;
+  }
+
+  function notesCard(entityId, placeholder) {
+    const value = (notes[entityId] || '').replace(/</g, '&lt;');
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">
+            ${cardIcon('note')}
+            NOTES
+          </div>
+        </div>
+        <textarea class="notes-textarea"
+                  placeholder="${placeholder}"
+                  oninput="setNote('${entityId}', this.value)">${value}</textarea>
+      </div>
+    `;
+  }
+
+  function flightsDocsCard(p) {
+    const hasDocs = p.docsAdded;
+    const ctaLabel = hasDocs ? 'View' : 'Add';
+    const ctaIcon = hasDocs ? cardIcon('chevron-right') : cardIcon('plus');
+    return `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">
+            ${cardIcon('plane')}
+            FLIGHTS &amp; DOCS
+          </div>
+          <button class="drawer-edit-btn" onclick="showPolicyEditView('flights')">${ctaIcon}${ctaLabel}</button>
+        </div>
+        ${hasDocs
+          ? `<div class="coverage-row"><span>Status</span><span>Flights &amp; docs uploaded</span></div>`
+          : `<div class="card-empty">No flights or documents yet.</div>`}
+      </div>
+    `;
+  }
+
+  // ===== Per-status drawer content
+  function policyDrawerParts(id) {
+    const p = policies.find(x => x.id === id);
+    if (!p) return { quickActions: '', body: '', bottom: '', moreMenu: '' };
+
+    const isQuote = p.status === 'quote_created';
+    const isActivePolicy = p.status === 'active';
+    const isDraft = p.status === 'draft';
+    const isCompleted = p.status === 'completed';
+    const isTerminal = TERMINAL.includes(p.status);
+    const inRoster = !!p.rosterId;
+    const isPreTrip = isActivePolicy && tripPhase(p) === 'pre';
+
+    // ===== Quick actions row + 3-dot menu items
+    let quick = [];
+    let moreItems = [];
+
+    if (isQuote) {
+      quick = [
+        { icon: 'email', label: 'Email' },
+        { icon: 'link', label: 'Copy link' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      ];
+      moreItems = [{ icon: 'trash', label: 'Delete quote' }];
+    } else if (isActivePolicy) {
+      // Quick actions are the same regardless of trip phase. The Edit
+      // entry points now live on each card (deep-link to specific tab).
+      quick = [
+        { icon: 'email', label: 'Email' },
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' },
+        { icon: 'duplicate', label: 'Duplicate quote' }
+      ];
+      moreItems = [{ icon: 'trash', label: 'Cancel policy' }];
+    } else if (isDraft) {
+      quick = [
+        { icon: 'edit', label: 'Continue' },
+        { icon: 'duplicate', label: 'Duplicate' }
+      ];
+      moreItems = [{ icon: 'trash', label: 'Delete draft' }];
+    } else if (isCompleted) {
+      quick = [
+        { icon: 'download', label: 'Download PDF' },
+        { icon: 'receipt', label: 'Download receipt' },
+        { icon: 'duplicate', label: 'Duplicate quote' }
+      ];
+    } else {
+      // declined, expired, cancelled
+      quick = [
+        { icon: 'duplicate', label: 'Duplicate quote' },
+        { icon: 'download', label: 'Download PDF' }
+      ];
+    }
+
+    if (inRoster) {
+      moreItems.unshift({ icon: 'eject', label: 'Move out of group' });
+    }
+
+    // ===== Body cards (read-only summary; per-card Edits deep-link
+    // into the relevant tab inside the policy edit panel).
+    // Quote drawer: TRIP DETAILS → trip wizard, COVERAGE → offer page.
+    // Policy drawer: TRIP DETAILS → Details tab (when pre-trip),
+    //                FLIGHTS & DOCS card → Flights & docs tab.
+    const tripEditAction = isQuote
+      ? 'showWizardView()'
+      : (isPreTrip ? "showPolicyEditView('details')" : null);
+    const tripCardHtml = tripCard(p, tripEditAction);
+
+    let coverageHtml = '';
+    if (p.plan) {
+      coverageHtml = isQuote
+        ? coverageCardForQuote(p)
+        : coverageCardForPolicy(p);
+    }
+
+    let extraCards = '';
+    if (isActivePolicy || isCompleted) {
+      extraCards += flightsDocsCard(p);
+    }
+
+    const inRosterTag = inRoster
+      ? `<div class="drawer-roster-tag">In group · ${p.rosterName}</div>`
+      : '';
+
+    // Contextual placeholder for the notes textarea
+    const notesPlaceholder = isQuote ? 'Add a note about this quote…'
+                          : isDraft ? 'Add a note about this draft…'
+                          : 'Add a note about this policy…';
+    const notesHtml = notesCard(p.id, notesPlaceholder);
+
+    const body = `
+      ${inRosterTag}
+      <div class="drawer-cards">
+        ${tripCardHtml}
+        ${coverageHtml}
+        ${extraCards}
+        ${notesHtml}
+      </div>
+    `;
+
+    // ===== Bottom CTA
+    // Only quotes (Pay $X) and drafts (Continue editing) get a primary
+    // bottom CTA — those surfaces have a clear primary intent. Policies
+    // are overview surfaces; no bottom CTA.
+    let bottom = '';
+    if (isQuote) {
+      bottom = `
+        <div class="drawer-bottom-bar">
+          <button class="drawer-pay-btn">Pay $${p.price}</button>
+        </div>
+      `;
+    } else if (isDraft) {
+      bottom = `
+        <div class="drawer-bottom-bar">
+          <button class="drawer-pay-btn">Continue editing</button>
+        </div>
+      `;
+    }
+
+    return {
+      quickActions: buildQuickActions(quick),
+      body,
+      bottom,
+      moreMenu: buildMoreMenu(moreItems)
+    };
+  }
+
+  function rosterDrawerParts(rosterId) {
+    const kids = rosterChildren(rosterId);
+    if (!kids.length) return { quickActions: '', body: '', bottom: '', moreMenu: '' };
+    const name = kids[0].rosterName;
+    const total = kids.reduce((sum, k) => sum + (k.price || 0), 0);
+    const totalTravelers = kids.reduce(
+      (sum, k) => sum + 1 + (k.additionalTravelers?.length || 0), 0
+    );
+
+    // Group summary card — no trip details (those live per-traveler below
+    // since a roster can be a single shared trip OR several different trips).
+    const groupCardHtml = `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">${cardIcon('users')}GROUP</div>
+        </div>
+        <div class="trip-heading">${name}</div>
+        <div class="trip-dates">${kids.length} quotes &nbsp;·&nbsp; ${totalTravelers} travelers &nbsp;·&nbsp; $${total} total</div>
+      </div>
+    `;
+
+    // Travelers card — each row carries its OWN destination + dates so
+    // the drawer works whether everyone's on the same trip or not. A
+    // sub-quote can cover more than one person (couple, family) — shown
+    // as a "+N more" hint next to the lead traveler's name.
+    const travelersCardHtml = `
+      <div class="drawer-card">
+        <div class="drawer-card-header">
+          <div class="drawer-card-title">${cardIcon('plane')}QUOTES (${kids.length})</div>
+        </div>
+        ${kids.map(k => {
+          const b = getStatusBadge(k);
+          const extra = (k.additionalTravelers || []).length;
+          const nameLabel = extra > 0
+            ? `${k.client} <span class="traveler-extra">+${extra} more</span>`
+            : k.client;
+          const planMeta = k.plan
+            ? `${k.plan} · $${k.price}${k.state ? ` · ${k.state}` : ''}`
+            : 'No plan selected';
+          const tripMeta = `${k.destination} · ${fmtFullDate(k.tripStart)} – ${fmtFullDate(k.tripEnd)}`;
+          return `
+            <div class="traveler-row" onclick="navigateToEntity('${k.id}')">
+              <div class="traveler-info">
+                <div class="traveler-name">${nameLabel}</div>
+                <div class="traveler-trip">${tripMeta}</div>
+                <div class="traveler-meta">${planMeta}</div>
+              </div>
+              <div class="traveler-row-trailing">
+                <span class="badge ${b.cls}">${b.text}</span>
+                <span class="traveler-chevron">${cardIcon('chevron-right')}</span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    const quick = [
+      { icon: 'plus', label: 'Add quote' },
+      { icon: 'email', label: 'Email group' },
+      { icon: 'download', label: 'Export CSV' }
+    ];
+    const moreItems = [{ icon: 'trash', label: 'Delete group' }];
+
+    const notesHtml = notesCard(`roster:${rosterId}`, 'Add a note about this group…');
+
+    return {
+      quickActions: buildQuickActions(quick),
+      body: `<div class="drawer-cards">${groupCardHtml}${travelersCardHtml}${notesHtml}</div>`,
+      bottom: '',
+      moreMenu: buildMoreMenu(moreItems)
+    };
+  }
+
+  // ===== Wizard shell (Edit trip details → Create quote)
+  function renderWizardShell(id) {
+    return `
+      <div class="drawer-header-bar">
+        <button class="drawer-icon-btn back" onclick="backToSummary()" aria-label="Back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <button class="drawer-icon-btn close" onclick="closeDrawer()" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <div class="wizard-title-block">
+          <h2 class="wizard-title">Create quote</h2>
+          <span class="wizard-multi-link">Create multiple quotes
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+        <div class="wizard-steps">
+          <div class="wizard-step">
+            <div class="wizard-step-num">1</div>
+            <div class="wizard-step-body">
+              <div class="wizard-step-title">Destination(s)</div>
+              <div class="wizard-step-desc">Add every country your travelers will visit on their trip.</div>
+            </div>
+          </div>
+          <div class="wizard-step">
+            <div class="wizard-step-num">2</div>
+            <div class="wizard-step-body">
+              <div class="wizard-step-title">Trip dates</div>
+              <div class="wizard-step-desc">Please note that we can only cover trips that haven't started yet.</div>
+            </div>
+          </div>
+          <div class="wizard-step">
+            <div class="wizard-step-num">3</div>
+            <div class="wizard-step-body">
+              <div class="wizard-step-title">State of residence</div>
+              <div class="wizard-step-desc">All travelers must live in the same state, as it affects coverage and pricing.</div>
+            </div>
+          </div>
+          <div class="wizard-step">
+            <div class="wizard-step-num">4</div>
+            <div class="wizard-step-body">
+              <div class="wizard-step-title">Travelers</div>
+              <div class="wizard-step-desc">Start with the main policy holder. Don't worry — no emails are sent until a policy is purchased.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wizard-bottom">
+        <button class="wizard-next-btn">
+          Next
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+        <div class="wizard-terms">By continuing, you agree to the <a>terms and conditions</a> and <a>privacy policy</a>.</div>
+      </div>
+    `;
+  }
+
+  // ===== Offer shell (Edit coverage → Your quote)
+  function renderOfferShell(id) {
+    const p = policies.find(x => x.id === id);
+    if (!p) return '';
+    const travelerCount = 1 + (p.additionalTravelers?.length || 0);
+
+    // Add-ons list — static list for the prototype, with CFAR pre-added
+    const addons = [
+      { id: 'cfar', name: 'Cancel for any reason', price: '$400.70', added: !!p.hasCfar },
+      { id: 'adv', name: 'Adventure & extreme sports', price: '$7.58', added: false },
+      { id: 'vrd', name: 'Vacation rental damage protection', price: '$7.58', added: false },
+      { id: 'rcc', name: 'Rental car care', price: '$7.58/day/car', added: false },
+      { id: 'mas', name: 'Medical accident & sickness upgrade', price: '$XX.XX', added: false },
+      { id: 'pet', name: 'Pet care', price: '$7.58', added: false }
+    ];
+
+    return `
+      <div class="drawer-header-bar">
+        <button class="drawer-icon-btn back" onclick="backToSummary()" aria-label="Back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        </button>
+        <button class="drawer-icon-btn close" onclick="closeDrawer()" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="drawer-body">
+        <div class="offer-title-block">
+          <h2 class="offer-title">Your quote</h2>
+          <span class="offer-status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Quote and link updated
+          </span>
+        </div>
+
+        <div class="offer-grid">
+          <div>
+            <div class="offer-label">Trip details</div>
+            <div class="offer-trip-title-row">
+              <div class="offer-trip-title">${p.destination}</div>
+              <button class="offer-trip-edit" onclick="showWizardView()" aria-label="Edit trip details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </button>
+            </div>
+            <div class="offer-trip-dates">${fmtFullDate(p.tripStart)} – ${fmtFullDate(p.tripEnd)}</div>
+            <div class="offer-trip-travelers">${travelerCount} traveler${travelerCount > 1 ? 's' : ''}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="offer-label">Estimated total trip cost</div>
+            <div class="offer-cost-help">Type your client's trip cost to generate a quote instantly.</div>
+            <input class="trip-cost-input" placeholder="$" value="${p.tripCost != null ? '$' + p.tripCost : ''}" />
+          </div>
+        </div>
+
+        <div class="plan-bar">
+          <div class="plan-bar-label">${p.plan || 'Faye Forward'}</div>
+          <button class="change-plan-btn">Change plan</button>
+        </div>
+
+        <div class="offer-expandable" onclick="toggleOfferExpand(this)">
+          <div class="offer-expandable-header">
+            See coverage details
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="offer-expandable-content">
+            <div style="font-size: 13px; color: var(--gray-40); line-height: 1.5;">Full coverage breakdown would render here — medical, evacuation, baggage, trip delay, etc.</div>
+          </div>
+        </div>
+
+        <div class="offer-expandable expanded" onclick="toggleOfferExpand(this)">
+          <div class="offer-expandable-header">
+            See add-ons
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="offer-expandable-content" onclick="event.stopPropagation()">
+            <div class="addon-grid">
+              ${addons.map(a => `
+                <div class="addon-item">
+                  <button class="addon-add-btn ${a.added ? 'added' : ''}" aria-label="${a.added ? 'Remove' : 'Add'} ${a.name}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                      ${a.added
+                        ? '<polyline points="20 6 9 17 4 12"/>'
+                        : '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>'}
+                    </svg>
+                  </button>
+                  <div class="addon-text">
+                    <div class="addon-name">${a.name}</div>
+                    <div class="addon-price">${a.price}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offer-bottom-bar">
+        <div class="offer-bottom-actions">
+          <button class="copy-link-btn">
+            Copy quote link
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="offer-pay-btn">Pay $${p.price}</button>
+        </div>
+        <div class="offer-terms"><a>Click here for plan document.</a> By continuing, you agree to the <a>terms and conditions</a> and <a>privacy policy</a>.</div>
+      </div>
+    `;
+  }
+
+  function toggleOfferExpand(el) {
+    el.classList.toggle('expanded');
+  }
+
+  // ===== Policy edit shell (Edit policy → policy edit view)
+  function renderPolicyEditShell(id) {
+    const p = policies.find(x => x.id === id);
+    if (!p) return '';
+    const badge = getStatusBadge(p);
+    const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 12px; height: 12px;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+    const tabContent = drawerTab === 'flights' ? renderFlightsDocsTab(p)
+                     : drawerTab === 'claims'  ? renderClaimsTab(p)
+                     : renderDetailsTab(p);
+
+    const showBottomBar = drawerTab === 'details';
+
+    return `
+      <div class="drawer-header-bar">
+        <div></div>
+        <button class="drawer-icon-btn close" onclick="closeDrawer()" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="policy-edit-title-block">
+        <h2 class="policy-edit-title">Policy</h2>
+        <div class="policy-edit-meta">
+          <span>Number:</span>
+          <span class="policy-edit-number">${p.policyNumber || '—'}
+            <span class="policy-edit-number-copy">${copyIcon}</span>
+          </span>
+          <span class="badge ${badge.cls}">${badge.text}</span>
+        </div>
+      </div>
+      <div class="policy-edit-tabs">
+        <div class="policy-edit-tab ${drawerTab === 'details' ? 'active' : ''}" onclick="switchPolicyTab('details')">Details</div>
+        <div class="policy-edit-tab ${drawerTab === 'flights' ? 'active' : ''}" onclick="switchPolicyTab('flights')">Flights &amp; docs</div>
+        <div class="policy-edit-tab ${drawerTab === 'claims' ? 'active' : ''}" onclick="switchPolicyTab('claims')">Claims</div>
+      </div>
+      <div class="policy-edit-body">${tabContent}</div>
+      ${showBottomBar ? `
+        <div class="policy-edit-bottom">
+          <div class="policy-edit-actions">
+            <button class="policy-discard-btn" onclick="backToSummary()">Discard</button>
+            <button class="policy-save-btn">Save changes</button>
+          </div>
+          <div class="policy-edit-helper">You can edit policies up to 3 days before the departure day.</div>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  function renderDetailsTab(p) {
+    const travelerCount = 1 + (p.additionalTravelers?.length || 0);
+    const additional = p.additionalTravelers || [];
+    return `
+      <div class="policy-edit-section">
+        <div class="policy-edit-label">Main traveler</div>
+        <div class="policy-edit-main-name">${p.client}</div>
+        <div class="policy-edit-main-meta">${p.email} &nbsp;|&nbsp; ${travelerCount} traveler${travelerCount > 1 ? 's' : ''}</div>
+      </div>
+
+      <div class="policy-edit-section">
+        <div class="drawer-field-label">Destinations</div>
+        <div class="drawer-input-wrap">
+          <input type="text" value="${p.destination}" />
+          ${cardIcon('chevron-down')}
+        </div>
+      </div>
+
+      <div class="policy-edit-section">
+        <div class="drawer-field-label">Trip dates</div>
+        <div class="drawer-field-row">
+          <div>
+            <div class="drawer-field-sub">From</div>
+            <div class="drawer-input-wrap">
+              <input type="text" value="${fmtFullDate(p.tripStart)}" />
+              ${cardIcon('pencil')}
+            </div>
+          </div>
+          <div>
+            <div class="drawer-field-sub">To</div>
+            <div class="drawer-input-wrap">
+              <input type="text" value="${fmtFullDate(p.tripEnd)}" />
+              ${cardIcon('pencil')}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="policy-edit-section">
+        <div class="drawer-field-label">Trip cost</div>
+        <div class="drawer-input-wrap">
+          <input type="text" value="$${p.tripCost != null ? p.tripCost : ''}" />
+          ${cardIcon('pencil')}
+        </div>
+      </div>
+
+      <div class="policy-edit-section">
+        <div class="policy-edit-additional-title">Additional travelers</div>
+        <div class="policy-edit-additional-desc">Add traveler emails to unlock app access for flight tracking, updates, and claims.</div>
+        ${additional.map((t, i) => `
+          <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+              <span class="accordion-header-text">${t.name}</span>
+              ${cardIcon('chevron-down')}
+            </div>
+            <div class="accordion-content">
+              <div class="drawer-field-label" style="margin-top: 8px;">Name</div>
+              <input class="drawer-input" type="text" value="${t.name}" />
+              <div class="drawer-field-label">Email</div>
+              <input class="drawer-input" type="text" value="${t.email}" />
+            </div>
+          </div>
+        `).join('')}
+        <button class="add-traveler-btn">${cardIcon('plus')}Add traveler</button>
+      </div>
+    `;
+  }
+
+  function renderFlightsDocsTab(p) {
+    const flights = p.docsAdded ? [
+      { num: 'DL 1234', detail: `SFO → ${p.destination.split(',')[0]} · ${fmtFullDate(p.tripStart)} · 10:30 AM` },
+      { num: 'DL 5678', detail: `${p.destination.split(',')[0]} → SFO · ${fmtFullDate(p.tripEnd)} · 6:45 PM` }
+    ] : [];
+    return `
+      <div class="policy-edit-section">
+        <div class="policy-edit-additional-title">Flights</div>
+        <div class="policy-edit-additional-desc">Adding flight details enables real-time delay tracking and faster claims if something goes wrong.</div>
+        ${flights.length
+          ? flights.map(f => `
+              <div class="flight-row">
+                <div>
+                  <div class="flight-num">${f.num}</div>
+                  <div class="flight-detail">${f.detail}</div>
+                </div>
+                <div class="flight-row-actions">
+                  <button class="flight-row-btn" aria-label="Edit flight">${cardIcon('pencil')}</button>
+                </div>
+              </div>
+            `).join('')
+          : `<div class="tab-empty" style="padding: 20px 12px;">
+              <div class="tab-empty-desc">No flights added yet.</div>
+            </div>`
+        }
+        <button class="add-traveler-btn">${cardIcon('plus')}Add flight</button>
+      </div>
+
+      <div class="policy-edit-section">
+        <div class="policy-edit-additional-title">Documents</div>
+        <div class="policy-edit-additional-desc">Upload passports, visas, or any travel-related documents for safekeeping.</div>
+        <div class="tab-empty" style="padding: 20px 12px;">
+          <div class="tab-empty-desc">No documents uploaded yet.</div>
+        </div>
+        <button class="add-traveler-btn">${cardIcon('plus')}Upload document</button>
+      </div>
+    `;
+  }
+
+  function renderClaimsTab(p) {
+    return `
+      <div class="tab-empty">
+        <div class="tab-empty-title">No claims filed</div>
+        <div class="tab-empty-desc">If something happens during the trip — illness, cancellation, lost baggage — file a claim here and Faye will handle it.</div>
+      </div>
+      <div style="text-align: center; margin-top: 16px;">
+        <button class="wizard-next-btn">${cardIcon('plus')}File a claim</button>
+      </div>
+    `;
+  }
+
+  function getActionIcon(name) {
+    const icons = {
+      email: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+      link: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+      download: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`,
+      duplicate: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
+      trash: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>`,
+      plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      edit: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+      receipt: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l3-2 3 2 3-2 3 2V8z"/><line x1="9" y1="10" x2="13" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/></svg>`,
+      eject: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4l8 11H4l8-11z"/><line x1="5" y1="19" x2="19" y2="19"/></svg>`,
+      eye: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+      x: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>`,
+      chat: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>`
+    };
+    return icons[name] || '';
+  }
+
+  // Helper: same icon but tagged with `menu-icon` class for 3-dot menus
+  function menuIcon(name) {
+    return getActionIcon(name).replace('<svg', '<svg class="menu-icon"');
+  }
+
+  function cardIcon(name) {
+    const icons = {
+      map: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+      shield: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+      plane: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5a2.5 2.5 0 0 0-3.5-3.5L12.5 7.5 4 5l-2 2 8 6-3 3-3-1-2 2 4 2 2 4 2-2-1-3 3-3 6 8z"/></svg>`,
+      pencil: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+      'chevron-down': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`,
+      'chevron-right': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`,
+      plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      note: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>`,
+      users: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+    };
+    return icons[name] || '';
+  }
+
+  // ===== Purchase celebration ===========================================
+  // Three Faye-only color palettes for the confetti
+  const FAYE_PALETTES = {
+    // Brand-pure: shades of purple + white accent
+    purple:  ['#561DCF', '#4817AF', '#C0B0FF', '#E2DFFF', '#FFFFFF', '#561DCF', '#C0B0FF'],
+    // Signal: primary purple paired with success/warning/error signal colors
+    signals: ['#561DCF', '#005C41', '#AB6100', '#991705', '#C0B0FF', '#CCF9EB', '#FFF8D4'],
+    // Soft pastels — the Faye background tones plus light purple for accent
+    pastels: ['#C0B0FF', '#CCF9EB', '#FFF8D4', '#FFE9E6', '#E2DFFF', '#C0B0FF', '#CCF9EB']
+  };
+  let currentPalette = 'signals';
+
+  // Stable display order — rank by initial urgency so the visible order
+  // matches what the table previously showed, then store the index so
+  // sort stays stable across state changes (purchase, etc.).
+  try {
+    [...policies].sort((a, b) => getUrgencyRank(a) - getUrgencyRank(b))
+                 .forEach((p, i) => { p.displayOrder = i; });
+  } catch (err) {
+    // Fallback: just use array order if urgency-rank sort fails for any reason
+    policies.forEach((p, i) => { p.displayOrder = i; });
+  }
+
+  // Snapshot original state so the user can reset and replay the celebration.
+  const originalPoliciesSnapshot = JSON.parse(JSON.stringify(policies));
+
+  document.querySelectorAll('.demo-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.demo-option').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentPalette = btn.dataset.palette;
+    });
+  });
+
+  // Locked-in confetti animation values (previously tunable via the ease tool)
+  const CONFETTI_EASE     = 'cubic-bezier(0.15, 0.18, 0.36, 0.91)';
+  const CONFETTI_DUR_BASE = 2.7;
+  const CONFETTI_DUR_VAR  = 1.5;
+
+  function resetDemo() {
+    policies.length = 0;
+    originalPoliciesSnapshot.forEach(p => policies.push(JSON.parse(JSON.stringify(p))));
+    renderTable();
+  }
+
+  // Smoothly transition the row's "Quote created" badge → "Pre-trip".
+  // Fade + shrink the old badge, swap text/class while invisible, pop back
+  // with a small overshoot easing. Urgency chip fades out at the same time.
+  // Timings tuned to be slower / gentler, matching the slower confetti fall.
+  function transitionBadgeToActive(rowEl) {
+    const badge = rowEl.querySelector('.badge');
+    if (badge) {
+      badge.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+      badge.style.opacity = '0.25';
+      badge.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        badge.className = 'badge badge-success';
+        badge.textContent = 'Pre-trip';
+        badge.style.transition = 'opacity 0.32s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        badge.style.opacity = '1';
+        badge.style.transform = 'scale(1)';
+      }, 280);
+    }
+    const urgency = rowEl.querySelector('.urgency-chip');
+    if (urgency) {
+      // Smoothly collapse the chip (max-width + padding to 0) instead of
+      // display:none, so the row layout doesn't snap.
+      urgency.style.transition = 'opacity 0.3s ease, transform 0.3s ease, max-width 0.45s ease 0.1s, padding 0.45s ease 0.1s, margin 0.45s ease 0.1s';
+      urgency.style.maxWidth = urgency.offsetWidth + 'px'; // lock current width before collapsing
+      void urgency.offsetWidth;
+      urgency.style.opacity = '0';
+      urgency.style.transform = 'scale(0.8)';
+      urgency.style.maxWidth = '0';
+      urgency.style.paddingLeft = '0';
+      urgency.style.paddingRight = '0';
+      urgency.style.marginLeft = '-8px';
+      urgency.style.overflow = 'hidden';
+    }
+  }
+
+  // Same fade+shrink → swap text → pop back pattern as the badge.
+  // Cascaded ~150ms after the badge so the two changes feel sequential.
+  function transitionButtonText(rowEl, newText) {
+    const btn = rowEl.querySelector('.action-stack > button');
+    if (!btn) return;
+    setTimeout(() => {
+      btn.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+      btn.style.opacity = '0.25';
+      btn.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        btn.textContent = newText;
+        btn.removeAttribute('onclick'); // can't purchase twice
+        btn.style.transition = 'opacity 0.32s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        btn.style.opacity = '1';
+        btn.style.transform = 'scale(1)';
+      }, 280);
+    }, 150);
+  }
+
+  // Same fade+shrink → swap → pop back pattern as the badge/button.
+  // Replaces the plan-name secondary line with the policy-number line
+  // (monospace + copy icon). Cascaded after the button so all three
+  // row-changes ripple in sequence (badge → button → plan).
+  function transitionPlanToPolicyNumber(rowEl, policyNumber) {
+    // Plan column is the 5th td (chevron, checkbox, client, trip, plan, ...)
+    const planCell = rowEl.querySelectorAll('td')[4];
+    if (!planCell) return;
+    const stack = planCell.querySelector('.stack');
+    if (!stack) return;
+    const secondary = stack.children[1]; // [0]=price, [1]=plan name or policy num
+    if (!secondary) return;
+
+    setTimeout(() => {
+      secondary.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+      secondary.style.opacity = '0.25';
+      secondary.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        const copyIcon = `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+        const newEl = document.createElement('span');
+        newEl.className = 'policy-num-inline';
+        newEl.innerHTML = `${policyNumber}<span class="policy-num-copy" title="Copy policy number">${copyIcon}</span>`;
+        newEl.style.opacity = '0';
+        newEl.style.transform = 'scale(0.9)';
+        newEl.style.transition = 'opacity 0.32s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        stack.replaceChild(newEl, secondary);
+        requestAnimationFrame(() => {
+          newEl.style.opacity = '1';
+          newEl.style.transform = 'scale(1)';
+        });
+      }, 280);
+    }, 280); // cascade: badge(0) → button(150) → plan(280)
+  }
+
+  const CONFETTI_COLORS = ['#561DCF', '#005C41', '#AB6100', '#C0B0FF', '#CCF9EB', '#FFF8D4'];
+
+  // Variation A — Center burst (energetic, particles flying out and falling)
+  function confettiBurst(rowEl) {
+    const rect = rowEl.getBoundingClientRect();
+    const baseY = rect.top + rect.height / 2;
+    for (let i = 0; i < 32; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.backgroundColor = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+      piece.style.left = (rect.left + 80 + Math.random() * (rect.width - 160)) + 'px';
+      piece.style.top = baseY + 'px';
+      const angle = Math.random() * 360;
+      const distance = 70 + Math.random() * 110;
+      const x = Math.cos(angle * Math.PI / 180) * distance;
+      const y = Math.sin(angle * Math.PI / 180) * distance - 40;
+      piece.style.setProperty('--x', x + 'px');
+      piece.style.setProperty('--y', y + 'px');
+      piece.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+      if (i % 3 === 0) piece.style.borderRadius = '50%';
+      if (i % 4 === 0) { piece.style.width = '6px'; piece.style.height = '12px'; }
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 1900);
+    }
+  }
+
+  // Confetti falls from the top of each changed cell (status + action),
+  // contained inside the row bounds. Particles fade in at the top, drift
+  // down with rotation, and fade out as they fall. Staggered start times
+  // create a continuous rain effect rather than a single burst.
+  function confettiBehindRow(rowEl) {
+    setTimeout(() => {
+      const statusCell = rowEl.querySelector('.badge')?.closest('td');
+      const actionCell = rowEl.querySelector('.action-stack')?.closest('td');
+      const cells = [statusCell, actionCell].filter(Boolean);
+      const palette = FAYE_PALETTES[currentPalette] || FAYE_PALETTES.purple;
+
+      // Container clipped to the row's bounding rect — particles can't escape.
+      const rowRect = rowEl.getBoundingClientRect();
+      const container = document.createElement('div');
+      container.className = 'confetti-row-container';
+      container.style.left = rowRect.left + 'px';
+      container.style.top = rowRect.top + 'px';
+      container.style.width = rowRect.width + 'px';
+      container.style.height = rowRect.height + 'px';
+      document.body.appendChild(container);
+
+      cells.forEach(cell => {
+        const cellRect = cell.getBoundingClientRect();
+        // Cell's horizontal span in container-relative coordinates.
+        // Origin Y is just above the row's top, so particles appear to
+        // fall INTO the row from above.
+        const cellLeftInRow = cellRect.left - rowRect.left;
+        const cellWidth = cellRect.width;
+
+        for (let i = 0; i < 42; i++) {
+          const piece = document.createElement('div');
+          piece.className = 'confetti-row-piece';
+          piece.style.backgroundColor = palette[i % palette.length];
+          // Spread across the cell's width, starting just above the row
+          piece.style.left = (cellLeftInRow + Math.random() * cellWidth) + 'px';
+          piece.style.top = '-12px';
+
+          // Varied shapes for confetti mix
+          const shape = i % 5;
+          if (shape === 0) {
+            piece.style.width = '7px';
+            piece.style.height = '7px';
+            piece.style.borderRadius = '50%';
+          } else if (shape === 1) {
+            piece.style.width = '3px';
+            piece.style.height = '14px';
+            piece.style.borderRadius = '1.5px';
+          } else if (shape === 2) {
+            piece.style.width = '5px';
+            piece.style.height = '5px';
+            piece.style.borderRadius = '1px';
+          } else if (shape === 3) {
+            piece.style.width = '8px';
+            piece.style.height = '8px';
+            piece.style.borderRadius = '1.5px';
+          } else {
+            piece.style.width = '4px';
+            piece.style.height = '10px';
+            piece.style.borderRadius = '1px';
+          }
+
+          // Falling motion: slight horizontal drift, full fall through the row
+          const drift = (Math.random() - 0.5) * 80;        // ±40px horizontal sway
+          const fall  = 80 + Math.random() * 70;            // 80–150px downward
+          piece.style.setProperty('--x', drift + 'px');
+          piece.style.setProperty('--y', fall + 'px');
+          piece.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+          // Tight stagger — initial burst feels cohesive but not all at once
+          piece.style.animationDelay = (Math.random() * 0.35) + 's';
+          // Per-particle duration around the base ± variation
+          const dur = Math.max(0.6, CONFETTI_DUR_BASE + (Math.random() - 0.5) * 2 * CONFETTI_DUR_VAR);
+          piece.style.animationDuration = dur + 's';
+          piece.style.animationTimingFunction = CONFETTI_EASE;
+
+          container.appendChild(piece);
+        }
+      });
+
+      // Cleanup well after the longest (delayed + duration) particle finishes
+      const maxLife = (CONFETTI_DUR_BASE + CONFETTI_DUR_VAR + 0.5) * 1000;
+      setTimeout(() => container.remove(), maxLife);
+    }, 320);
+  }
+
+  // Variation C — Small focused burst from the new Pre-trip badge.
+  // Fires after the badge swap (~220ms) so it emerges from the green badge.
+  function confettiFromBadge(rowEl) {
+    setTimeout(() => {
+      const badge = rowEl.querySelector('.badge.badge-success');
+      if (!badge) return;
+      const rect = badge.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      for (let i = 0; i < 22; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece small';
+        piece.style.backgroundColor = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+        piece.style.left = centerX + 'px';
+        piece.style.top = centerY + 'px';
+        // Spread mostly evenly around the badge, slight randomness.
+        const angle = (i / 22) * 360 + (Math.random() - 0.5) * 22;
+        const distance = 45 + Math.random() * 55;
+        const x = Math.cos(angle * Math.PI / 180) * distance;
+        const y = Math.sin(angle * Math.PI / 180) * distance - 8;
+        piece.style.setProperty('--x', x + 'px');
+        piece.style.setProperty('--y', y + 'px');
+        piece.style.setProperty('--rot', (Math.random() * 360) + 'deg');
+        if (i % 3 === 0) piece.style.borderRadius = '50%';
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 1400);
+      }
+    }, 220);
+  }
+
+  // Option 2 — Aircraft fly-by (top-down jet, pointing right)
+  function paperAirplaneFly(rowEl) {
+    const rect = rowEl.getBoundingClientRect();
+    const startX = rect.left + 60;
+    const endX = rect.right - 60;
+    const y = rect.top + rect.height / 2 - 14;
+    const plane = document.createElement('div');
+    plane.className = 'plane-flyby';
+    plane.style.top = y + 'px';
+    plane.style.left = startX + 'px';
+    plane.style.setProperty('--end-x', (endX - startX) + 'px');
+    // Top-down passenger jet, rotated to face right (direction of travel).
+    plane.innerHTML = `<svg viewBox="0 0 24 24" width="28" height="28" fill="#561DCF"><path transform="rotate(90 12 12)" d="M21 16v-2l-8-5V3.5C13 2.67 12.33 2 11.5 2S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1L15 22v-1.5L13 19v-5.5l8 2.5z"/></svg>`;
+    document.body.appendChild(plane);
+    setTimeout(() => plane.remove(), 1100);
+    rowEl.classList.add('row-glow-green');
+    setTimeout(() => rowEl.classList.remove('row-glow-green'), 1200);
+  }
+
+  // Option 3 — Halo + check pop
+  function haloCheck(rowEl) {
+    rowEl.classList.add('row-halo-flash');
+    setTimeout(() => rowEl.classList.remove('row-halo-flash'), 1000);
+    // Wait for the badge swap to land on green, then pop the check.
+    setTimeout(() => {
+      const badge = rowEl.querySelector('.badge.badge-success');
+      if (!badge) return;
+      const check = document.createElement('span');
+      check.className = 'check-pop';
+      check.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      badge.insertBefore(check, badge.firstChild);
+      setTimeout(() => check.remove(), 1500);
+    }, 260);
+  }
+
+  function purchaseQuote(id, e) {
+    if (e) e.stopPropagation();
+    const p = policies.find(x => x.id === id);
+    if (!p || p.status !== 'quote_created') return;
+    const rowEl = document.querySelector(`tr[data-id="${id}"]`);
+    if (!rowEl) return;
+
+    // Mutate state — quote becomes an active pre-trip policy.
+    p.status = 'active';
+    p.paidAt = '2026-05-10';
+    p.policyNumber = 'P26-' + Math.random().toString(36).slice(2, 9);
+    if (p.docsAdded === undefined) p.docsAdded = false;
+
+    // Smooth badge transition + urgency chip fade-out
+    transitionBadgeToActive(rowEl);
+
+    // Same smooth fade+swap+pop pattern as the badge, cascaded slightly
+    // after so the two changes feel sequential rather than simultaneous.
+    transitionButtonText(rowEl, 'Add flights & docs');
+
+    // Plan column also swaps: plan name → policy number + copy icon
+    transitionPlanToPolicyNumber(rowEl, p.policyNumber);
+
+    // Fire the contained Monday-style burst with the selected Faye palette
+    confettiBehindRow(rowEl);
+
+    // No re-render — the row stays in its current position. Sorting is
+    // by stable displayOrder so the row would have stayed anyway, but
+    // we skip the re-render to avoid unnecessary DOM churn.
+  }
+
+  renderTable();
+</script>
+
+</body>
+</html>
